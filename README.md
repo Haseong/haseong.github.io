@@ -18,6 +18,7 @@ AlphaCode 기술 블로그는 Jekyll과 YAT 테마(v1.10.0)를 기반으로 구�
 ## 문서
 
 - [Jekyll 포스트 처리 과정](docs/jekyll-post-processing.md) - Jekyll이 마크다운 파일을 HTML로 변환하는 과정 설명
+- [Sphere to Markdown 변환기](docs/sphere-to-markdown-converter.md) - Sphere JSON 파일을 Jekyll 포스트로 변환하는 도구
 
 ## 주요 기능
 

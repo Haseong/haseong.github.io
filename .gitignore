@@ -28,6 +28,8 @@ Gemfile.lock
 # Node.js
 **/node_modules/*
 **/package-lock.json
+**/*.log
+**/.env
 
 # Misc
 *-test.md
