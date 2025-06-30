@@ -154,6 +154,60 @@ bundle exec jekyll serve
 bundle exec jekyll build
 ```
 
+## _site 디렉토리 구조
+
+`_site` 디렉토리는 Jekyll의 빌드 출력 디렉토리로, 모든 생성된 정적 파일이 저장되는 곳입니다.
+
+### 디렉토리 구조 매핑
+
+```
+소스 디렉토리              →  _site 디렉토리
+================             ================
+_posts/YYYY-MM-DD-*.md   →  /category/YYYY/MM/DD/*.html
+_layouts/                →  (HTML 페이지에 병합됨)
+_includes/               →  (HTML 페이지에 병합됨)
+_sass/                   →  /assets/css/main.css
+assets/                  →  /assets/ (그대로 복사)
+*.html (루트)            →  /*.html (처리됨)
+*.md (루트)              →  /*.md (그대로 복사)
+```
+
+### _site에 생성되는 파일 유형
+
+1. **변환된 파일들**
+   - 마크다운 포스트 → HTML 파일
+   - SCSS 파일 → 컴파일된 CSS
+   - Liquid 템플릿 → 처리된 HTML
+
+2. **복사되는 파일들**
+   - 정적 에셋 (이미지, JS)
+   - Front Matter가 없는 문서 파일
+   - 루트 레벨 HTML 파일
+
+3. **생성되는 파일들**
+   - `feed.xml` (RSS 피드)
+   - `sitemap.xml` (사이트맵)
+   - SEO 메타 태그가 포함된 HTML
+
+### 파일 제외하기
+
+특정 파일을 `_site`에서 제외하려면 `_config.yml`에 추가:
+
+```yaml
+exclude:
+  - CLAUDE.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+```
+
+## 성능 고려사항
+
+- `.gitignore`에 `_site/` 추가 (이미 완료됨)
+- `bundle exec jekyll clean`으로 주기적으로 빌드 정리
+- 이미지 최적화 후 추가
+
 ## 요약
 
-Jekyll의 포스트 처리 시스템은 매우 자동화되어 있어, 개발자는 단순히 `_posts` 폴더에 올바른 형식의 마크다운 파일을 추가하기만 하면 됩니다. Jekyll이 나머지 모든 과정을 처리하여 완전한 정적 HTML 웹사이트를 생성합니다.
+Jekyll의 포스트 처리 시스템은 매우 자동화되어 있어, 개발자는 단순히 `_posts` 폴더에 올바른 형식의 마크다운 파일을 추가하기만 하면 됩니다. Jekyll이 나머지 모든 과정을 처리하여 완전한 정적 HTML 웹사이트를 생성합니다. 최종 결과물은 `_site` 디렉토리에 저장되며, 이는 웹 서버에 바로 배포할 수 있는 완전한 정적 사이트입니다.
