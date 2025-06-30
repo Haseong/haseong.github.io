@@ -33,3 +33,6 @@ Gemfile.lock
 *-test.md
 *copy.md
 test/*
+
+# Symlink
+content
