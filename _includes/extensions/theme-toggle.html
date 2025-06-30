@@ -14,6 +14,42 @@
 {%- assign night_mode = return -%}
 
 <script>
+  // Set initial toggle state immediately to prevent visual flicker
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var nightModeOption = ('{{ night_mode }}' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual' ? localStorage : sessionStorage;
+    var data = storage.getItem('theme');
+    
+    try {
+      data = JSON.parse(data || '{}');
+      if (nightModeOption === 'manual' && data.nightShift !== undefined) {
+        sw.checked = data.nightShift;
+      } else if (nightModeOption === 'auto') {
+        var hours = new Date().getHours();
+        var nightShift = hours >= 19 || hours <= 7;
+        if (data.nightShift !== undefined) {
+          nightShift = data.nightShift;
+        }
+        sw.checked = nightShift;
+      } else if (nightModeOption === 'on') {
+        sw.checked = true;
+      } else if (nightModeOption === 'off') {
+        sw.checked = false;
+      }
+    } catch(e) {
+      // Default behavior on error
+      if (nightModeOption === 'auto') {
+        var hours = new Date().getHours();
+        sw.checked = hours >= 19 || hours <= 7;
+      } else if (nightModeOption === 'on') {
+        sw.checked = true;
+      }
+    }
+  })();
+</script>
+
+<script>
   (function() {
     var sw = document.getElementById('theme-switch');
     var html = document.getElementsByTagName('html')[0];

@@ -4,3 +4,41 @@
   1. Head over to https://realfavicongenerator.net/ to add your own favicons.
   2. Customize default _includes/custom-head.html in your source directory and insert the given code snippet.
 {% endcomment %}
+
+<script>
+  // Prevent dark mode flash by applying theme immediately
+  (function() {
+    var nightModeOption = ('{{ site.night_mode }}' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual' ? localStorage : sessionStorage;
+    var data = storage.getItem('theme');
+    
+    try {
+      data = JSON.parse(data || '{}');
+      
+      if (nightModeOption === 'auto') {
+        var hours = new Date().getHours();
+        var nightShift = hours >= 19 || hours <= 7;
+        if (data.nightShift !== undefined) {
+          nightShift = data.nightShift;
+        }
+        if (nightShift) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      } else if (nightModeOption === 'manual' && data.nightShift) {
+        document.documentElement.dataset.theme = 'dark';
+      } else if (nightModeOption === 'on') {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    } catch(e) {
+      // If there's an error, check if it's night time for auto mode
+      if (nightModeOption === 'auto') {
+        var hours = new Date().getHours();
+        if (hours >= 19 || hours <= 7) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      } else if (nightModeOption === 'on') {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    }
+  })();
+</script>
