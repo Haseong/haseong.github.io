@@ -1,5 +1,28 @@
-The MIT License (MIT)
+================================================================================
+HASEONG BLOG LICENSE INFORMATION
+================================================================================
 
+1. BLOG CONTENT LICENSE
+--------------------------------------------------------------------------------
+Copyright (c) 2021-2025 Haseong Jeong
+
+All blog posts, articles, and original content created for this website are
+proprietary and protected by copyright law. This content is intended for
+COMMERCIAL USE and is NOT open source.
+
+All rights reserved. No part of this website's content may be reproduced,
+distributed, or transmitted in any form or by any means without the prior
+written permission of the copyright holder.
+
+For permissions and licensing inquiries, contact: haseong.jeong@gmail.com
+
+
+2. OPEN SOURCE COMPONENTS
+--------------------------------------------------------------------------------
+This website uses the following open source software components:
+
+### Jekyll Theme - YAT (Yet Another Theme)
+The MIT License (MIT)
 Copyright (c) 2019 Jeffrey Tse
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,3 +42,51 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+### Jekyll and Plugins
+- Jekyll (https://jekyllrb.com/) - MIT License
+- jekyll-feed - MIT License
+- jekyll-paginate - MIT License
+- jekyll-seo-tag - MIT License
+- jekyll-sitemap - MIT License
+- jekyll-spaceship - MIT License
+
+### Ruby Dependencies
+- kramdown - MIT License
+- liquid - MIT License
+- rouge - MIT License
+- sass-embedded - MIT License
+- nokogiri - MIT License
+- eventmachine - Ruby or GPL License
+- addressable - Apache License 2.0
+
+### JavaScript Libraries
+- Font Awesome 4.7.0 - SIL OFL 1.1 (font) and MIT License (CSS)
+- Noto Sans Font - SIL Open Font License 1.1
+
+### Additional Components (gen_md directory)
+- Tiptap Editor Extensions (@tiptap/*) - MIT License
+- OpenAI SDK - Apache License 2.0
+- Commander.js - MIT License
+- glob - ISC License
+- dotenv - BSD-2-Clause License
+
+
+3. ATTRIBUTION REQUIREMENTS
+--------------------------------------------------------------------------------
+When using or modifying the Jekyll YAT theme components, you must:
+- Include the copyright notice and MIT license text
+- Provide attribution back to the original theme (credit links in footer or project)
+
+The blog's theme attribution is maintained in the website footer as required.
+
+
+4. DISCLAIMER
+--------------------------------------------------------------------------------
+THE BLOG CONTENT IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+================================================================================
+Last updated: January 2025
+================================================================================
