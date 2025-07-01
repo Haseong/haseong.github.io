@@ -25,6 +25,8 @@ sidebar:
 
     {%- include views/article.html -%}
 
+    {%- include extensions/adsense-post.html -%}
+
     {%- assign result = hidden | where_exp: "item", "item == 'navigator'" -%}
     {%- if result.size == 0 -%}
     <div class="post-nav">

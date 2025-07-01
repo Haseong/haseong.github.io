@@ -25,7 +25,7 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Haseong
-email: haseong@alphacode.ai
+email: haseong.jeong@gmail.com
 author: Haseong
 
 # Copyright setting
@@ -48,7 +48,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Google search results) and in your feed.xml site description.
 
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://alphacode.ai" # the base hostname & protocol for your site, e.g. https://example.com
+url: "https://haseong.github.io" # the base hostname & protocol for your site, e.g. https://example.com
 # favicon: "https://alphacode.ai/images/logo/logo.png" # the favicon for your site
 
 # Yat date format
@@ -145,6 +145,14 @@ night_mode: "manual"
 #   background_color: "#ff4e00"
 #   text_transform: "uppercase"  # ("uppercase", "lowercase", "capitalize")
 
+# Google AdSense
+adsense:
+  client_id: "pub-5768014778427274" # Your AdSense publisher ID
+  enable_auto_ads: true # Enable auto ads
+  slots:
+    post_bottom: "2983611706" # Ad unit ID for post bottom
+    sidebar: "8607457563" # Ad unit ID for sidebar
+
 # If you want to link only specific pages in your header, uncomment
 # this and add the path to the pages in order as they should show up
 # header_pages:
@@ -160,7 +168,7 @@ defaults:
       path: ""
       type: "home"
     values:
-      heading: "AlphaCode"
+      heading: "Haseong"
       subheading: "함께 만드는 AI 세상"
       banner: "https://storage.googleapis.com/alphacode-company-image/about.jpg"
 
