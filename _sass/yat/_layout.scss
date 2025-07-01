@@ -56,11 +56,6 @@ html {
   }
 }
 
-// Global styles for post-tags
-.post-tags {
-  margin-top: 10px !important;
-}
-
 /**
  * Site header
  */
@@ -344,6 +339,10 @@ html {
     color: #777;
     word-break: break-word;
     overflow-wrap: break-word;
+  }
+
+  .post-tags {
+    margin-top: 10px;
   }
 
   .post-tags .post-tag {
