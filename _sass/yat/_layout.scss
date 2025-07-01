@@ -236,6 +236,11 @@ html {
   .post-tags {
     padding-right: 150px;
 
+    @include media-query($on-palm) {
+      padding-right: 0;
+      padding-top: 10px;
+    }
+
     .post-tag {
       display: inline-block;
       margin: 0 12px 0 0;

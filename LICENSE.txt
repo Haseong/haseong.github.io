@@ -1,10 +1,10 @@
 ================================================================================
-HASEONG BLOG LICENSE INFORMATION
+AIstar BLOG LICENSE INFORMATION
 ================================================================================
 
 1. BLOG CONTENT LICENSE
 --------------------------------------------------------------------------------
-Copyright (c) 2021-2025 Haseong Jeong
+Copyright (c) 2021-2025 AIstar
 
 All blog posts, articles, and original content created for this website are
 proprietary and protected by copyright law. This content is intended for

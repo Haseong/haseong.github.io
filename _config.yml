@@ -24,9 +24,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Haseong
+title: AIstar
 email: haseong.jeong@gmail.com
-author: Haseong
+author: AIstar
 
 # Copyright setting
 # You can use any html code, currently below placeholders are available:
@@ -168,9 +168,9 @@ defaults:
       path: ""
       type: "home"
     values:
-      heading: "Haseong"
-      subheading: "함께 만드는 AI 세상"
-      banner: "https://storage.googleapis.com/alphacode-company-image/about.jpg"
+      heading: "AIstar"
+      subheading: "미래를 밝히는 AI 인사이트"
+      banner: "/assets/images/banners/aistar-banner.jpg"
 
 # Banner default settings
 # These banner settings are for global banner default, but you can also
