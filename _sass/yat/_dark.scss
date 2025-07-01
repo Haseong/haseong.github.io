@@ -27,9 +27,181 @@ html[data-theme="dark"]  {
   }
 
   *:not(pre) > code {
-    color: $dark-text-color;
-    background-color: #454545;
+    color: #ffffff !important;
+    background-color: #1a202c !important;
+    border: 1px solid #2d3748 !important;
   }
+
+  pre {
+    background-color: #0f1419 !important;
+    border: 1px solid #1a202c !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+
+    > code {
+      color: #f7fafc !important;
+    }
+  }
+
+  .highlighter-rouge {
+    pre {
+      background-color: #0f1419 !important;
+      border: 1px solid #1a202c !important;
+      
+      code {
+        color: #f7fafc !important;
+      }
+    }
+  }
+
+  /* 강제로 코드 블록 스타일 적용 */
+  div[class*="language-"] {
+    pre {
+      background-color: #0f1419 !important;
+      border: none !important;
+      
+      code {
+        color: #f7fafc !important;
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  /* badge 클래스가 있는 코드 블록 스타일 */
+  pre.highlight.badge {
+    background-color: #0f1419 !important;
+    border: 1px solid #1a202c !important;
+    color: #f7fafc !important;
+    
+    code {
+      color: #f7fafc !important;
+      background-color: transparent !important;
+    }
+  }
+
+  /* data-lang 속성이 있는 코드 블록 */
+  pre[data-lang] {
+    background-color: #0f1419 !important;
+    border: 1px solid #1a202c !important;
+    color: #f7fafc !important;
+    
+    code {
+      color: #f7fafc !important;
+      background-color: transparent !important;
+    }
+  }
+
+  /* 모든 코드 요소에 대한 강제 스타일 */
+  code {
+    color: #f7fafc !important;
+  }
+
+  pre code {
+    color: #f7fafc !important;
+    background-color: transparent !important;
+  }
+
+  /* XML 코드 블록 특별 처리 */
+  .language-xml,
+  .language-xml pre,
+  .language-xml code,
+  pre[data-lang="xml"],
+  pre[data-lang="xml"] code {
+    background-color: #0f1419 !important;
+    color: #f7fafc !important;
+    border-color: #1a202c !important;
+  }
+
+  /* 모든 언어 코드 블록에 대한 강제 적용 */
+  .language-*,
+  .language-* pre,
+  .language-* code,
+  pre[data-lang],
+  pre[data-lang] code {
+    background-color: #0f1419 !important;
+    color: #f7fafc !important;
+    border-color: #1a202c !important;
+  }
+
+  .language-xml,
+  .language-html,
+  .language-css,
+  .language-scss,
+  .language-javascript,
+  .language-js,
+  .language-typescript,
+  .language-ts,
+  .language-python,
+  .language-py,
+  .language-java,
+  .language-c,
+  .language-cpp,
+  .language-csharp,
+  .language-cs,
+  .language-php,
+  .language-ruby,
+  .language-rb,
+  .language-go,
+  .language-rust,
+  .language-rs,
+  .language-sql,
+  .language-bash,
+  .language-shell,
+  .language-sh,
+  .language-yaml,
+  .language-yml,
+  .language-json,
+  .language-markdown,
+  .language-md {
+    background-color: #0f1419 !important;
+    
+    pre {
+      background-color: #0f1419 !important;
+      
+      code {
+        color: #f7fafc !important;
+      }
+    }
+    
+    &::before {
+      background: #2d3748 !important;
+      color: #ffffff !important;
+    }
+  }
+
+  /* data-lang 속성이 있는 코드 블록의 언어 표시 배지 */
+  pre[data-lang]::before {
+    background: #2d3748 !important;
+    color: #ffffff !important;
+  }
+
+  /* XML 특별 처리 */
+  pre[data-lang="xml"]::before {
+    background: #2d3748 !important;
+    color: #ffffff !important;
+  }
+
+  /* 모든 언어에 대한 언어 표시 배지 */
+  pre[data-lang*="xml"]::before,
+  pre[data-lang*="html"]::before,
+  pre[data-lang*="css"]::before,
+  pre[data-lang*="javascript"]::before,
+  pre[data-lang*="python"]::before,
+  pre[data-lang*="java"]::before,
+  pre[data-lang*="c"]::before,
+  pre[data-lang*="php"]::before,
+  pre[data-lang*="ruby"]::before,
+  pre[data-lang*="go"]::before,
+  pre[data-lang*="rust"]::before,
+  pre[data-lang*="sql"]::before,
+  pre[data-lang*="bash"]::before,
+  pre[data-lang*="yaml"]::before,
+  pre[data-lang*="json"]::before,
+  pre[data-lang*="markdown"]::before {
+    background: #2d3748 !important;
+    color: #ffffff !important;
+  }
+
+
 
   blockquote {
     border-left: 4px solid #484848;
@@ -129,6 +301,8 @@ html[data-theme="dark"]  {
       color: #d7d7d7;
     }
   }
+
+
 
   .page-segments {
     li {
@@ -243,6 +417,15 @@ html[data-theme="dark"]  {
       background-color: #353535;
       color: #bbb;
       border-color: #505050;
+    }
+  }
+
+  /* Footer 링크 색상 톤다운 - 다크모드 */
+  .site-footer-inner a {
+    color: #9ca3af;
+    
+    &:hover {
+      color: #d1d5db;
     }
   }
 }

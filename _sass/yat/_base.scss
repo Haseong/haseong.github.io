@@ -121,6 +121,15 @@ a {
   }
 }
 
+/* Footer 링크 색상 톤다운 */
+.site-footer-inner a {
+  color: #0891b2;
+  
+  &:hover {
+    color: #0e7490;
+  }
+}
+
 /**
  * Blockquotes
  */
@@ -146,25 +155,33 @@ pre,
 code {
   @include relative-font-size(0.9375);
   color: $text-color;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
 }
 
 *:not(pre) > code {
   padding: 3px 6px;
-  border-radius: 3px;
-  background-color: #eee;
-  margin: 0 5px;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  margin: 0 2px;
+  color: #e83e8c;
 }
 
 pre {
   overflow-x: auto;
   position: relative;
-  background-color: #f0f0f0;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   > code {
     display: inline-block;
     padding: 20px!important;
     background-color: transparent;
     border: 0;
+    color: #333;
   }
 
   table, pre {
@@ -288,5 +305,57 @@ table {
   background-size: cover;
   background-position: center center;
   overflow: hidden;
+}
+
+/* Code block language indicator */
+.highlighter-rouge {
+  position: relative;
+  margin: 20px 0;
+}
+
+.language-xml,
+.language-html,
+.language-css,
+.language-scss,
+.language-javascript,
+.language-js,
+.language-typescript,
+.language-ts,
+.language-python,
+.language-py,
+.language-java,
+.language-c,
+.language-cpp,
+.language-csharp,
+.language-cs,
+.language-php,
+.language-ruby,
+.language-rb,
+.language-go,
+.language-rust,
+.language-rs,
+.language-sql,
+.language-bash,
+.language-shell,
+.language-sh,
+.language-yaml,
+.language-yml,
+.language-json,
+.language-markdown,
+.language-md {
+  &::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #6c757d;
+    color: white;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 0 8px 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
 }
 
