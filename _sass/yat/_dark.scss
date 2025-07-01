@@ -221,5 +221,29 @@ html[data-theme="dark"]  {
       }
     }
   }
+
+  .post-tags .post-tag {
+    background-color: #2a2a2a;
+    color: #999;
+    border: 1px solid #404040;
+
+    &:hover {
+      background-color: #353535;
+      color: #bbb;
+      border-color: #505050;
+    }
+  }
+
+  .post .post-tags .post-tag {
+    background-color: #2a2a2a;
+    color: #999;
+    border: 1px solid #404040;
+
+    &:hover {
+      background-color: #353535;
+      color: #bbb;
+      border-color: #505050;
+    }
+  }
 }
 
