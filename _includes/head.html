@@ -4,7 +4,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
   {%- seo -%}
-  <meta property="og:image" content="https://storage.googleapis.com/alphacode-company-image/about.jpg" />
+  {%- comment -%}
+  Custom og:image logic:
+  1. Use post/page image if defined
+  2. Try to extract first image from content
+  3. Fall back to default banner image
+  {%- endcomment -%}
+  {%- if page.image -%}
+    <meta property="og:image" content="{{ page.image | absolute_url }}" />
+  {%- elsif page.content contains '<img' -%}
+    {%- assign images = page.content | split: '<img' -%}
+    {%- for image in images -%}
+      {%- if forloop.index > 1 -%}
+        {%- assign src = image | split: 'src="' | last | split: '"' | first -%}
+        {%- if src contains 'http' -%}
+          <meta property="og:image" content="{{ src }}" />
+        {%- else -%}
+          <meta property="og:image" content="{{ src | absolute_url }}" />
+        {%- endif -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- elsif page.content contains '![' -%}
+    {%- assign images = page.content | split: '![' -%}
+    {%- for image in images -%}
+      {%- if forloop.index > 1 -%}
+        {%- assign imageurl = image | split: '](' | last | split: ')' | first -%}
+        {%- if imageurl contains 'http' -%}
+          <meta property="og:image" content="{{ imageurl }}" />
+        {%- else -%}
+          <meta property="og:image" content="{{ imageurl | absolute_url }}" />
+        {%- endif -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    <meta property="og:image" content="{{ '/assets/images/banners/about.jpg' | absolute_url }}" />
+  {%- endif -%}
   <link rel="icon" href="{{ site.favicon }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
