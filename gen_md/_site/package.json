@@ -1,0 +1,29 @@
+{
+  "name": "tiptap-to-markdown",
+  "version": "1.0.0",
+  "description": "Convert Tiptap JSON files to Jekyll markdown posts",
+  "main": "program.js",
+  "type": "module",
+  "scripts": {
+    "start": "node program.js"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.1.13",
+    "@tiptap/extension-document": "^2.1.13",
+    "@tiptap/extension-heading": "^2.1.13",
+    "@tiptap/extension-image": "^2.1.13",
+    "@tiptap/extension-link": "^2.1.13",
+    "@tiptap/extension-paragraph": "^2.1.13",
+    "@tiptap/extension-text": "^2.1.13",
+    "@tiptap/extension-bold": "^2.1.13",
+    "@tiptap/extension-italic": "^2.1.13",
+    "tiptap-markdown": "^0.8.9",
+    "commander": "^11.1.0",
+    "glob": "^10.3.10",
+    "openai": "^4.52.0",
+    "dotenv": "^16.4.5"
+  },
+  "keywords": ["tiptap", "markdown", "jekyll", "converter"],
+  "author": "",
+  "license": "MIT"
+}

@@ -234,6 +234,7 @@ html {
   }
 
   .post-tags {
+    margin: 0;
     padding-right: 150px;
 
     @include media-query($on-palm) {
