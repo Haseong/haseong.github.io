@@ -201,11 +201,10 @@ html {
   }
 
   a {
-    $a-color: $brand-color;
-    color: $a-color;
+    color: #a3555c;
 
     &:hover {
-      color: lighten($a-color, 10%);
+      color: #a3555c;
     }
   }
 }
