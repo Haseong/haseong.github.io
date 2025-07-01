@@ -4,7 +4,10 @@
      crossorigin="anonymous"></script>
 {%- if site.adsense.enable_auto_ads -%}
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "{{ site.adsense.client_id }}",
+          enable_page_level_ads: true
+     });
 </script>
 {%- endif -%}
 {%- endif -%}
