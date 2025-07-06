@@ -8,6 +8,8 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
+import sharp from 'sharp';
+import fetch from 'node-fetch';
 
 // .env 파일 로드
 dotenv.config();
@@ -67,7 +69,7 @@ async function analyzeWithGPT(content, title) {
 }
 
 // Sphere JSON을 Markdown으로 변환하는 함수
-function sphereToMarkdown(doc) {
+function sphereToMarkdown(doc, imagePaths = {}) {
   let markdown = '';
   
   function processNode(node, depth = 0) {
@@ -96,7 +98,9 @@ function sphereToMarkdown(doc) {
       case 'image':
         const src = node.attrs?.src || '';
         const alt = node.attrs?.alt || '';
-        markdown += `![${alt}](${src})\n\n`;
+        // 이미지 경로가 변환된 경우 새 경로 사용
+        const imagePath = imagePaths[src] || src;
+        markdown += `![${alt}](${imagePath})\n\n`;
         break;
         
       case 'bulletList':
@@ -228,6 +232,47 @@ function formatDate(date) {
   return `${year}-${month}-${day}`;
 }
 
+// 이미지 다운로드 및 변환 함수
+async function downloadAndConvertImage(imageUrl, outputPath) {
+  try {
+    let imageBuffer;
+    
+    // Base64 이미지 처리
+    if (imageUrl.startsWith('data:')) {
+      const base64Data = imageUrl.split(',')[1];
+      imageBuffer = Buffer.from(base64Data, 'base64');
+    } 
+    // URL 이미지 처리
+    else if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+      const response = await fetch(imageUrl);
+      if (!response.ok) throw new Error(`Failed to fetch image: ${response.statusText}`);
+      const arrayBuffer = await response.arrayBuffer();
+      imageBuffer = Buffer.from(arrayBuffer);
+    } 
+    // 로컬 파일 경로 처리
+    else {
+      // file:// 프로토콜 제거
+      let localPath = imageUrl;
+      if (localPath.startsWith('file://')) {
+        localPath = localPath.substring(7);
+      }
+      // 로컬 파일을 읽어서 처리
+      const localImageBuffer = await fs.readFile(localPath);
+      imageBuffer = localImageBuffer;
+    }
+    
+    // Sharp를 사용하여 JPG로 변환
+    await sharp(imageBuffer)
+      .jpeg({ quality: 95 })
+      .toFile(outputPath);
+    
+    return true;
+  } catch (error) {
+    console.error(`Failed to process image: ${error.message}`);
+    return false;
+  }
+}
+
 // Jekyll front matter 생성
 function createFrontMatter(title, date, tags, summary) {
   const formattedDate = new Date(date).toISOString().replace('T', ' ').substring(0, 19) + ' +0900';
@@ -267,11 +312,26 @@ async function processFile(inputPath, outputPath) {
     const jsonContent = await fs.readFile(inputPath, 'utf-8');
     const doc = JSON.parse(jsonContent);
     
+    // 이미지 찾기 및 처리
+    const imagePaths = {};
+    const imageNodes = [];
+    
+    // 모든 이미지 노드 찾기
+    function findImages(node) {
+      if (node.type === 'image' && node.attrs?.src) {
+        imageNodes.push(node);
+      }
+      if (node.content) {
+        node.content.forEach(findImages);
+      }
+    }
+    findImages(doc);
+    
     // 첫 번째 제목 찾기 (파일명에서 .sp 제거)
     const fileName = path.basename(inputPath, '.sp');
     const firstHeading = findFirstHeading(doc) || fileName;
     
-    // Markdown 변환
+    // Markdown 변환 (이미지 경로는 나중에 처리)
     const markdown = sphereToMarkdown(doc);
     
     // OpenAI API로 분석 (API 키가 있는 경우에만)
@@ -288,6 +348,37 @@ async function processFile(inputPath, outputPath) {
       };
     }
     
+    // 날짜와 slug로 파일명 생성
+    const date = formatDate(new Date());
+    const baseFileName = `${date}-${analysis.slug}`;
+    
+    // 이미지 처리
+    if (imageNodes.length > 0) {
+      console.log(`   🖼️  Processing ${imageNodes.length} images...`);
+      
+      // 이미지 저장 디렉토리 생성
+      const imageDir = '/Users/hs1512/source/writing/blog/assets/images/posts';
+      await fs.mkdir(imageDir, { recursive: true });
+      
+      for (let i = 0; i < imageNodes.length; i++) {
+        const imageNode = imageNodes[i];
+        const originalSrc = imageNode.attrs.src;
+        const imageFileName = imageNodes.length > 1 ? `${baseFileName}_${i + 1}.jpg` : `${baseFileName}.jpg`;
+        const localImagePath = path.join(imageDir, imageFileName);
+        const webImagePath = `/assets/images/posts/${imageFileName}`;
+        
+        console.log(`   📸 Converting image ${i + 1}/${imageNodes.length}...`);
+        const success = await downloadAndConvertImage(originalSrc, localImagePath);
+        
+        if (success) {
+          imagePaths[originalSrc] = webImagePath;
+        }
+      }
+    }
+    
+    // Markdown 다시 변환 (이미지 경로 매핑 포함)
+    const markdownWithImages = sphereToMarkdown(doc, imagePaths);
+    
     // 출력 파일명 결정
     let outputFilePath;
     if (outputPath.endsWith('.md')) {
@@ -295,8 +386,7 @@ async function processFile(inputPath, outputPath) {
       outputFilePath = outputPath;
     } else {
       // 디렉토리가 지정된 경우
-      const date = formatDate(new Date());
-      const filename = `${date}-${analysis.slug}.md`;
+      const filename = `${baseFileName}.md`;
       outputFilePath = path.join(outputPath, filename);
     }
     
@@ -306,7 +396,7 @@ async function processFile(inputPath, outputPath) {
       new Date(),
       analysis.tags,
       analysis.summary
-    ) + markdown;
+    ) + markdownWithImages;
     
     // 디렉토리 생성
     await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
