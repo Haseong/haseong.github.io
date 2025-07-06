@@ -5,4 +5,10 @@ subheading: 'Tech Blog'
 banner: 'default'
 ---
 
+{% if page.url contains '/page' %}
+  {% assign is_ajax_page = true %}
+{% else %}
+  {% assign is_ajax_page = false %}
+{% endif %}
+
 {{ content }}

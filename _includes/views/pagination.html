@@ -1,6 +1,11 @@
-{%- if page.paginator -%}
+{%- comment -%}
+  jekyll-paginate-v2 compatibility
+{%- endcomment -%}
+{%- if paginator -%}
+  {%- comment -%} Already have paginator from jekyll-paginate-v2 {%- endcomment -%}
+{%- elsif page.paginator -%}
   {%- assign paginator = page.paginator -%}
-{%- elsif paginator == nil -%}
+{%- else -%}
   {%- assign paginator = site -%}
 {%- endif -%}
 
@@ -56,7 +61,12 @@
 
   <!-- Pagination links -->
   {%- if paginator.posts.size < site.posts.size -%}
-    {%- include views/paginator.html -%}
+    <div class="paginator-wrapper">
+      {%- include views/paginator.html -%}
+    </div>
   {%- endif -%}
 </div>
+
+<!-- Infinite scroll script -->
+<script src="{{ '/assets/js/infinite-scroll.js' | relative_url }}"></script>
 {%- endif -%}

@@ -868,3 +868,36 @@ html {
   background-color: #e3e3e3e3;
   vertical-align: baseline;
 }
+
+/**
+ * Infinite scroll loader
+ */
+.infinite-scroll-loader {
+  text-align: center;
+  padding: 40px;
+  
+  .spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0,0,0,.1);
+    border-radius: 50%;
+    border-top-color: $brand-color;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  p {
+    margin-top: 15px;
+    color: $grey-color;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hide pagination numbers for infinite scroll */
+.paginator-wrapper {
+  visibility: hidden;
+  height: 1px;
+}
