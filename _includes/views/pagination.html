@@ -1,10 +1,8 @@
 {%- comment -%}
-  jekyll-paginate-v2 compatibility
+  Jekyll pagination
 {%- endcomment -%}
 {%- if paginator -%}
-  {%- comment -%} Already have paginator from jekyll-paginate-v2 {%- endcomment -%}
-{%- elsif page.paginator -%}
-  {%- assign paginator = page.paginator -%}
+  {%- comment -%} Use the paginator from jekyll-paginate {%- endcomment -%}
 {%- else -%}
   {%- assign paginator = site -%}
 {%- endif -%}

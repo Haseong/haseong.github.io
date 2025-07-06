@@ -191,23 +191,23 @@ defaults:
 # Excerpt size setting
 # excerpt_size: 350
 
-# Pagination setting (jekyll-paginate-v2)
-# paginate: 5
-# paginate_path: "/page:num/"
+# Pagination setting (jekyll-paginate)
+paginate: 5
+paginate_path: "/page:num/"
 
-# jekyll-paginate-v2 settings
-pagination:
-  enabled: true
-  per_page: 5
-  permalink: '/page:num/'
-  title: ':title - page :num'
-  limit: 0
-  sort_field: 'date'
-  sort_reverse: true
-  collection: 'posts'
-  trail:
-    before: 2
-    after: 2
+# jekyll-paginate-v2 settings (not supported on GitHub Pages)
+# pagination:
+#   enabled: true
+#   per_page: 5
+#   permalink: '/page:num/'
+#   title: ':title - page :num'
+#   limit: 0
+#   sort_field: 'date'
+#   sort_reverse: true
+#   collection: 'posts'
+#   trail:
+#     before: 2
+#     after: 2
 
 # Disqus comments
 # disqus:
@@ -242,7 +242,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
-  - jekyll-paginate-v2
+  - jekyll-paginate
   - jekyll-spaceship
 
 exclude:
