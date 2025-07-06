@@ -1,0 +1,371 @@
+<!-- Language Detection and Translation Suggestion Layer -->
+<div id="language-suggestion-overlay" class="language-suggestion-overlay" style="display: none;" onclick="if(event.target === this) window.closeLanguagePopup()">
+  <div class="language-suggestion-popup">
+    <button class="language-suggestion-close" aria-label="Close" onclick="window.closeLanguagePopup()">&times;</button>
+    <div class="language-suggestion-content">
+      <h3>Language Detection</h3>
+      <p id="language-suggestion-message">
+        <!-- Message will be dynamically inserted -->
+      </p>
+      <div class="language-suggestion-buttons">
+        <button id="language-suggestion-accept" class="btn-primary" onclick="window.acceptTranslation()">Translate</button>
+        <button id="language-suggestion-decline" class="btn-secondary" onclick="window.declineTranslation()">Stay in Korean</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.language-suggestion-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.language-suggestion-popup {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.language-suggestion-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666666;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  padding: 5px;
+  line-height: 1;
+}
+
+.language-suggestion-close:hover {
+  opacity: 1;
+}
+
+.language-suggestion-content h3 {
+  margin: 0 0 1rem 0;
+  color: #333333;
+  font-size: 1.25rem;
+}
+
+.language-suggestion-content p {
+  margin: 0 0 1.5rem 0;
+  color: #555555;
+  line-height: 1.6;
+}
+
+.language-suggestion-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.language-suggestion-buttons button {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+  transform: translateY(-1px);
+}
+
+/* Dark mode styles */
+html[data-theme="dark"] .language-suggestion-popup {
+  background-color: #2a2a2a;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] .language-suggestion-content h3 {
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .language-suggestion-content p {
+  color: #cccccc;
+}
+
+html[data-theme="dark"] .language-suggestion-close {
+  color: #cccccc;
+}
+
+html[data-theme="dark"] .btn-primary {
+  background-color: #0d6efd;
+}
+
+html[data-theme="dark"] .btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+html[data-theme="dark"] .btn-secondary {
+  background-color: #5c636a;
+}
+
+html[data-theme="dark"] .btn-secondary:hover {
+  background-color: #4d5154;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .language-suggestion-popup {
+    padding: 1.5rem;
+  }
+  
+  .language-suggestion-buttons {
+    flex-direction: column;
+  }
+  
+  .language-suggestion-buttons button {
+    width: 100%;
+  }
+}
+</style>
+
+<script>
+(function() {
+  // Configuration
+  const STORAGE_KEY = 'language_preference';
+  const SUPPORTED_LANGUAGES = ['en', 'ko', 'zh-CN', 'zh']; // Korean, English, and Chinese
+  const DEFAULT_FALLBACK_LANGUAGE = 'en';
+  const SITE_LANGUAGE = '{{ site.lang | default: "ko" }}';
+  
+  // Store target language globally
+  let currentTargetLang = null;
+  
+  // Language display names
+  const LANGUAGE_NAMES = {
+    'en': 'English',
+    'ko': 'Korean',
+    'zh-CN': 'Chinese (Simplified)',
+    'zh': 'Chinese',
+    'fr': 'French',
+    'es': 'Spanish',
+    'de': 'German',
+    'ja': 'Japanese',
+    'pt': 'Portuguese',
+    'ru': 'Russian',
+    'it': 'Italian'
+  };
+
+  // Check if user has already made a choice
+  function hasUserPreference() {
+    return localStorage.getItem(STORAGE_KEY) !== null;
+  }
+
+  // Save user preference
+  function saveUserPreference(translate) {
+    localStorage.setItem(STORAGE_KEY, translate ? 'translate' : 'no-translate');
+  }
+
+  // Get browser language
+  function getBrowserLanguage() {
+    const lang = navigator.language || navigator.userLanguage || 'en';
+    // Extract the primary language code (e.g., 'en-US' -> 'en')
+    const browserLang = lang.split('-')[0].toLowerCase();
+    
+    // FOR TESTING: Override browser language to test popup
+    // Remove this line in production
+    // return 'en'; // Uncomment this line to test with English
+    
+    return browserLang;
+  }
+
+  // Determine target language
+  function getTargetLanguage(browserLang) {
+    // If browser language is Korean, no need to suggest translation
+    if (browserLang === 'ko') {
+      return null;
+    }
+    
+    // Handle Chinese language codes (zh, zh-CN, zh-TW, etc.)
+    if (browserLang === 'zh' || browserLang.startsWith('zh-')) {
+      return 'zh-CN'; // Use simplified Chinese as default
+    }
+    
+    // If browser language is supported, use it
+    if (SUPPORTED_LANGUAGES.includes(browserLang) && browserLang !== 'ko') {
+      return browserLang;
+    }
+    
+    // Otherwise, fallback to English
+    return DEFAULT_FALLBACK_LANGUAGE;
+  }
+
+  // Show language suggestion popup
+  function showLanguageSuggestion(targetLang) {
+    // Store the target language
+    currentTargetLang = targetLang;
+    
+    const overlay = document.getElementById('language-suggestion-overlay');
+    const message = document.getElementById('language-suggestion-message');
+    
+    if (!overlay || !message) {
+      return;
+    }
+    
+    const browserLang = getBrowserLanguage();
+    const browserLangName = LANGUAGE_NAMES[browserLang] || browserLang;
+    const targetLangName = LANGUAGE_NAMES[targetLang] || targetLang;
+    
+    // Construct message
+    let messageText;
+    if (browserLang === targetLang) {
+      messageText = `We detected your browser is set to ${browserLangName}. Would you like to translate this page from Korean to ${targetLangName}?`;
+    } else {
+      messageText = `We detected your browser is set to ${browserLangName}, but this language is not yet supported. Would you like to translate this page from Korean to ${targetLangName} instead?`;
+    }
+    
+    message.textContent = messageText;
+    overlay.style.display = 'flex';
+    
+    // Focus on accept button for accessibility
+    setTimeout(() => {
+      const acceptButton = document.getElementById('language-suggestion-accept');
+      if (acceptButton) {
+        acceptButton.focus();
+      }
+    }, 100);
+  }
+
+  // Hide popup
+  function hideLanguageSuggestion() {
+    const overlay = document.getElementById('language-suggestion-overlay');
+    overlay.style.display = 'none';
+  }
+
+  // Trigger translation
+  function triggerTranslation(targetLang) {
+    // Wait for Google Translate to load
+    const checkGoogleTranslate = setInterval(() => {
+      const googleCombo = document.querySelector("select.goog-te-combo");
+      if (googleCombo) {
+        clearInterval(checkGoogleTranslate);
+        
+        // Find the language option in the Google Translate dropdown
+        const langSelectors = document.querySelectorAll('.lang-select');
+        for (let selector of langSelectors) {
+          if (selector.getAttribute('data-lang') === targetLang) {
+            selector.click();
+            break;
+          }
+        }
+      }
+    }, 100);
+    
+    // Stop checking after 5 seconds
+    setTimeout(() => clearInterval(checkGoogleTranslate), 5000);
+  }
+
+  // Initialize language detection
+  function initLanguageDetection() {
+    // Only run on pages that have Google Translate enabled
+    const translateElement = document.getElementById('google_translate_element');
+    if (!translateElement) {
+      return;
+    }
+
+    // Skip if user already made a choice
+    if (hasUserPreference()) {
+      return;
+    }
+
+    // Get browser language and determine target
+    const browserLang = getBrowserLanguage();
+    const targetLang = getTargetLanguage(browserLang);
+    
+    // If target language is null (browser is already Korean), do nothing
+    if (!targetLang) {
+      return;
+    }
+
+    // Show suggestion popup after a short delay
+    setTimeout(() => {
+      showLanguageSuggestion(targetLang);
+    }, 1000);
+  }
+
+  // Run when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLanguageDetection);
+  } else {
+    initLanguageDetection();
+  }
+  
+  // FOR TESTING: Add global function to force show popup
+  window.testLanguagePopup = function() {
+    localStorage.removeItem(STORAGE_KEY);
+    showLanguageSuggestion('en');
+  };
+  
+  // Global functions for onclick handlers
+  window.acceptTranslation = function() {
+    if (currentTargetLang) {
+      saveUserPreference(true);
+      hideLanguageSuggestion();
+      triggerTranslation(currentTargetLang);
+    }
+  };
+  
+  window.declineTranslation = function() {
+    saveUserPreference(false);
+    hideLanguageSuggestion();
+  };
+  
+  window.closeLanguagePopup = function() {
+    saveUserPreference(false);
+    hideLanguageSuggestion();
+  };
+})();
+</script>

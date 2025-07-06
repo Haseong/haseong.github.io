@@ -42,3 +42,48 @@
     }
   })();
 </script>
+
+<!-- Language Preference Reset Shortcut -->
+<script>
+  // Wait for page to load
+  window.addEventListener('DOMContentLoaded', function() {
+    // Add keyboard event listeners
+    document.addEventListener('keydown', function(e) {
+      // Check for Ctrl+Shift+L (Windows/Linux) or Cmd+Option+Shift+L (Mac)
+      var isWindowsLinux = e.ctrlKey && e.shiftKey && !e.altKey;
+      var isMac = e.metaKey && e.altKey && e.shiftKey;
+      
+      if ((isWindowsLinux || isMac) && (e.key === 'L' || e.key === 'l')) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (confirm('언어 설정을 초기화하고 번역 제안을 다시 표시하시겠습니까?')) {
+          // Remove language preference
+          localStorage.removeItem('language_preference');
+          
+          // Clear Google Translate cookies
+          document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname;
+          document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + window.location.hostname;
+          
+          // Clear all localStorage items related to translation
+          var keysToRemove = [];
+          for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            if (key && (key.includes('translate') || key.includes('language'))) {
+              keysToRemove.push(key);
+            }
+          }
+          keysToRemove.forEach(function(key) {
+            localStorage.removeItem(key);
+          });
+          
+          alert('언어 설정이 초기화되었습니다. 페이지를 새로고침하면 번역 제안이 다시 표시됩니다.');
+          location.reload();
+        }
+        return false;
+      }
+    }, true); // Use capture mode
+    
+  });
+</script>
