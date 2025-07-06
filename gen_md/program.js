@@ -234,11 +234,13 @@ function findFirstHeading(doc) {
   return null;
 }
 
-// 날짜 포맷팅 함수
+// 날짜 포맷팅 함수 (KST 기준)
 function formatDate(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  // 한국 시간대(KST)로 변환
+  const kstDate = new Date(date.getTime() + (9 * 60 * 60 * 1000)); // UTC + 9시간
+  const year = kstDate.getUTCFullYear();
+  const month = String(kstDate.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(kstDate.getUTCDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
 
@@ -285,7 +287,16 @@ async function downloadAndConvertImage(imageUrl, outputPath) {
 
 // Jekyll front matter 생성
 function createFrontMatter(title, date, tags, summary) {
-  const formattedDate = new Date(date).toISOString().replace('T', ' ').substring(0, 19) + ' +0900';
+  // 한국 시간대(KST)로 날짜 포맷팅
+  const kstDate = new Date(date.getTime() + (9 * 60 * 60 * 1000)); // UTC + 9시간
+  const year = kstDate.getUTCFullYear();
+  const month = String(kstDate.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(kstDate.getUTCDate()).padStart(2, '0');
+  const hours = String(kstDate.getUTCHours()).padStart(2, '0');
+  const minutes = String(kstDate.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(kstDate.getUTCSeconds()).padStart(2, '0');
+  
+  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} +0900`;
   const tagList = tags.map(tag => tag.trim()).join(', ');
   
   // 요약문의 개행 문자를 실제 개행으로 변환하고 각 줄 앞에 들여쓰기 추가
@@ -321,6 +332,10 @@ const options = program.opts();
 async function processFile(inputPath, outputPath) {
   try {
     console.log(`\n📄 Processing: ${path.basename(inputPath)}`);
+    
+    // SP 파일의 생성 시간 가져오기
+    const stats = await fs.stat(inputPath);
+    const fileDate = new Date(stats.birthtime);
     
     // JSON 파일 읽기
     const jsonContent = await fs.readFile(inputPath, 'utf-8');
@@ -362,8 +377,8 @@ async function processFile(inputPath, outputPath) {
       };
     }
     
-    // 날짜와 slug로 파일명 생성
-    const date = formatDate(new Date());
+    // 날짜와 slug로 파일명 생성 (SP 파일 날짜 사용)
+    const date = formatDate(fileDate);
     const baseFileName = `${date}-${analysis.slug}`;
     
     // 이미지 처리
@@ -404,10 +419,10 @@ async function processFile(inputPath, outputPath) {
       outputFilePath = path.join(outputPath, filename);
     }
     
-    // Front matter 추가
+    // Front matter 추가 (SP 파일 날짜 사용)
     const fullContent = createFrontMatter(
       fileName, // 파일명을 제목으로 사용
-      new Date(),
+      fileDate,
       analysis.tags,
       analysis.summary
     ) + markdownWithImages;
@@ -420,7 +435,19 @@ async function processFile(inputPath, outputPath) {
     
     console.log(`   ✅ Created: ${path.basename(outputFilePath)}`);
     console.log(`   📌 Tags: ${analysis.tags.join(', ')}`);
-    console.log(`   📝 Summary: ${analysis.summary.substring(0, 50)}...`);
+    
+    // SNS 메시지 출력
+    console.log('\n<sns message>\n');
+    
+    // summary의 개행 문자를 실제 개행으로 변환
+    const formattedSummary = analysis.summary.split('\\n').join('\n');
+    console.log(formattedSummary);
+    
+    // 예상 URL 생성
+    const [year, month, day] = date.split('-');
+    const slugWithoutDate = analysis.slug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    const expectedUrl = `https://haseong.github.io/blog/${year}/${month}/${day}/${slugWithoutDate}.html`;
+    console.log(`\n${expectedUrl}`);
   } catch (error) {
     console.error(`   ❌ Error: ${error.message}`);
   }
