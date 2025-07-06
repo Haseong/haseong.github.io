@@ -35,13 +35,23 @@ async function analyzeWithGPT(content, title) {
 다음 작업을 수행해주세요:
 1. 제목을 영문으로 번역하여 URL slug로 사용할 수 있도록 변환 (소문자, 하이픈 사용)
 2. 글의 주요 주제를 파악하여 5-8개의 영문 태그 생성 (예: markdown, ai-integration, productivity)
-3. 글의 핵심 내용을 한국어로 4-5줄로 요약
+3. 글의 핵심 내용을 한국어로 정확히 4줄로 요약하되, 다음 조건을 준수:
+   - 존댓말체(~습니다, ~됩니다)로 작성
+   - 각 줄은 한 문장으로 구성하되, 자연스럽게 이어지도록 작성
+   - 각 줄은 20-40자 정도로 작성하여 내용을 충실히 전달
+   - 첫 줄: 핵심 현상이나 변화를 구체적으로 설명
+   - 둘째 줄: 긍정적 측면과 부정적 측면을 대비하여 제시
+   - 셋째 줄: 구체적인 사례나 데이터를 포함한 영향 설명
+   - 넷째 줄: 미래 전망이나 핵심 질문을 던지며 마무리
+
+예시:
+"AI 코딩 도구가 개발자의 업무 방식을 근본적으로 바꾸고 있습니다.\n생산성은 향상되지만 기존 개발 언어의 한계가 뚜렷이 드러나고 있습니다.\nMeta가 1000만 줄의 Java를 Kotlin으로 전환한 것이 대표적 사례입니다.\nAI 시대에 Java가 살아남을 수 있을지 업계의 관심이 집중되고 있습니다."
 
 응답 형식:
 {
   "slug": "translated-title-slug",
   "tags": ["tag1", "tag2", "tag3"],
-  "summary": "한국어 요약 내용"
+  "summary": "첫 번째 문장입니다.\n두 번째 문장입니다.\n세 번째 문장입니다.\n네 번째 문장입니다."
 }
 `;
 
@@ -278,6 +288,9 @@ function createFrontMatter(title, date, tags, summary) {
   const formattedDate = new Date(date).toISOString().replace('T', ' ').substring(0, 19) + ' +0900';
   const tagList = tags.map(tag => tag.trim()).join(', ');
   
+  // 요약문의 개행 문자를 실제 개행으로 변환하고 각 줄 앞에 들여쓰기 추가
+  const formattedSummary = summary.split('\\n').map(line => `  ${line}`).join('\n');
+  
   return `---
 layout: post
 title: "${title}"
@@ -285,7 +298,8 @@ date: ${formattedDate}
 author: 정하성
 categories: [Blog]
 tags: [${tagList}]
-summary: "${summary.replace(/"/g, '\\"')}"
+summary: |
+${formattedSummary}
 ---
 
 `;

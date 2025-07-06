@@ -1,11 +1,12 @@
 ---
 layout: post
 title: "바이브 코딩 시대에서 Java의 한계"
-date: 2025-07-06 05:53:34 +0900
+date: 2025-07-06 06:10:33 +0900
 author: 정하성
 categories: [Blog]
-tags: [java, ai-coding, programming-languages, kotlin-migration, cloud-native, performance, developer-productivity]
-summary: "2024년 AI 코딩 도구의 확산으로 Java는 언어적 한계와 운영 비용 문제로 위기에 처해 있다. Java의 장황한 문법과 null 처리 문제는 AI 도구의 효율성을 떨어뜨리며, Meta의 Kotlin 전환 사례는 코드 간결성 및 생산성 향상을 보여준다. 클라우드 환경에서 Java의 높은 메모리 사용과 긴 시작 시간은 비용 증가 요인이며, Go, Node.js, Python 같은 현대적 언어들이 더 나은 성능과 경제성을 제공한다."
+tags: [java, ai-coding, programming-languages, kotlin-migration, cloud-native, software-development, performance, developer-productivity]
+summary: |
+  AI 코딩 도구의 확산으로 Java는 심각한 구조적 한계에 직면하고 있습니다. Java는 안정성과 생산성에서 긍정적이나, 복잡도와 비용 측면에서 단점을 보이고 있습니다. Meta의 대규모 Kotlin 전환과 클라우드 환경에서의 성능 데이터가 이러한 변화를 뒷받침합니다. AI 시대에 Java의 미래와 적응 방안이 중요한 화두로 떠오르고 있습니다.
 ---
 
 ![](/assets/images/posts/2025-07-06-java-crisis.jpg)
