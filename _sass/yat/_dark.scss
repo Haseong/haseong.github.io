@@ -428,5 +428,24 @@ html[data-theme="dark"]  {
       color: #d1d5db;
     }
   }
+
+  /* Post content links - dark mode */
+  .post-content a {
+    color: #7d9fc7;
+    
+    &:hover {
+      color: #8fadcf;
+      border-bottom-color: #8fadcf;
+    }
+    
+    &:visited {
+      color: #9d85a8;
+      
+      &:hover {
+        color: #aa95b5;
+        border-bottom-color: #aa95b5;
+      }
+    }
+  }
 }
 
