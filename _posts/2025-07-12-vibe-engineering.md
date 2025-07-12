@@ -4,12 +4,12 @@ title: "바이브 엔지니어링: 코드 다음으로 AI가 정복할 영역"
 date: 2025-07-12 14:14:30 +0900
 author: 정하성
 categories: [Blog]
-tags: [vibe-engineering, ai-infrastructure, system-engineering, cloud-complexity, automation, onboarding-challenges, infrastructure-as-code, future-of-it]
+tags: [system-engineering, vibe-engineering, ai-integration, infrastructure-as-code, cloud-native, onboarding-challenges, automation, software-development-paradigm]
 summary: |
-  AI가 주도하는 코드 작성 혁신이 시스템 엔지니어링 전반으로 확산되고 있습니다. 복잡한 클라우드 환경과 도구 학습 부담이 커지면서 생산성 저하와 인력 이직 문제가 심각합니다. Y Combinator와 마이크로소프트 등에서 AI 생성 코드 비중이 증가하는 것이 이러한 변화를 보여줍니다. 자연어 기반 인프라 정의와 바이브 엔지니어링이 미래 해결책으로 주목받고 있습니다.
+  2025년 AI 기반 바이브 코딩 개념이 소프트웨어 개발을 혁신하고 있습니다. AI 활용은 효율성을 높이지만 시스템 엔지니어링 복잡성 문제는 여전히 심각합니다. Y Combinator 스타트업의 25%가 AI 코드로 운영되는 등 AI 도입이 확산 중입니다. 바이브 엔지니어링이 시스템 복잡성 문제 해결의 열쇠가 될지 주목됩니다.
 ---
 
-![](/assets/images/posts/2025-07-12-after-code-comes-system.jpg)
+![](/assets/images/posts/2025-07-12-beyond-code-comes-system.jpg)
 
 ## 코드 다음은 시스템이다
 
