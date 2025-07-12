@@ -140,8 +140,58 @@ banner_image: "/assets/images/alphacode/alphacode.jpeg"
 - Add new page layouts: Create in `_layouts/`
 - Customize components: Edit files in `_includes/`
 
+## Content Creation and Conversion
+
+### Working with Sphere Files (.sp)
+
+This project includes content authored in Sphere editor format (.sp files) located in the `content/` directory. These files need to be converted to Markdown format for Jekyll processing.
+
+### Converting Sphere Files to Markdown
+
+Use the `gen_md` converter tool to transform .sp files into Jekyll-compatible Markdown posts:
+
+```bash
+# Navigate to the gen_md directory (required for .env file)
+cd gen_md
+
+# Convert a single Sphere file to Markdown
+node program.js -i "../content/documents/Blog/[folder]/[file].sp" -o "../_posts/YYYY-MM-DD-post-title.md"
+
+# Example:
+node program.js -i "../content/documents/Blog/바이브 엔지니어링/바이브 엔지니어링: 코드 다음으로 AI가 정복할 영역.sp" -o "../_posts/2025-01-30-vibe-engineering.md"
+```
+
+Important notes:
+- The gen_md tool requires OpenAI API access (configured in `gen_md/.env`)
+- Always run the converter from within the `gen_md` directory
+- The tool automatically generates appropriate Jekyll front matter
+- Images in Sphere files are processed and converted
+- Tags are automatically extracted from content analysis
+- The tool outputs a suggested social media message
+
+### Directory Structure for Content
+
+```
+content/
+├── documents/
+│   └── Blog/           # Blog post drafts in Sphere format
+│       └── [topic]/    # Organized by topic
+│           └── *.sp    # Individual Sphere files
+└── documents-welcome/  # Welcome/intro content
+```
+
+### Post Conversion Workflow
+
+1. Author content in Sphere editor (creates .sp files)
+2. Navigate to `gen_md` directory
+3. Run the converter with appropriate input/output paths
+4. Review generated Markdown file in `_posts/`
+5. Commit and push changes to publish
+
 ## Recent Changes
 
+- Added Sphere file (.sp) to Markdown conversion documentation
+- Integrated gen_md tool for automated content conversion
 - Removed unused `assets/img/` directory (468 files, 92MB)
 - Added `exclude:` configuration to prevent CLAUDE.md from being copied to _site
 - Created documentation in `docs/` directory
