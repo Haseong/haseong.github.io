@@ -86,7 +86,7 @@ The YAT theme provides:
 ### Key Configuration Points
 
 - `_config.yml`: Main site configuration including theme settings, plugin options, and site metadata
-  - `exclude:` list now includes CLAUDE.md to prevent copying to _site
+  - `exclude:` list now includes CLAUDE.md to prevent copying to \_site
 - `_data/defaults.yml`: Default values for translations and UI elements
 - `_data/translate_langs.yml`: Language configuration for Google Translate integration
 
@@ -107,7 +107,8 @@ The YAT theme provides:
 3. Use Korean language for content consistency
 4. Leverage jekyll-spaceship features for rich content
 
-Example front matter:
+Example front matter: date is now date.
+
 ```yaml
 ---
 layout: post
@@ -158,10 +159,12 @@ cd gen_md
 node program.js -i "../content/documents/Blog/[folder]/[file].sp" -o "../_posts/YYYY-MM-DD-post-title.md"
 
 # Example:
-node program.js -i "../content/documents/Blog/바이브 엔지니어링/바이브 엔지니어링: 코드 다음으로 AI가 정복할 영역.sp" -o "../_posts/2025-01-30-vibe-engineering.md"
+node program.js -i "../content/documents/Blog/바이브 엔지니어링/바이브 엔지니어링: 코드 다음으로 AI가 정복할 영역.sp" -o "../_posts/2025-07-12-vibe-engineering.md"
 ```
 
 Important notes:
+
+- **IMPORTANT**: Always use the current date for the output filename (e.g., if today is 2025-07-12, use `2025-07-12-title.md`)
 - The gen_md tool requires OpenAI API access (configured in `gen_md/.env`)
 - Always run the converter from within the `gen_md` directory
 - The tool automatically generates appropriate Jekyll front matter
@@ -193,6 +196,6 @@ content/
 - Added Sphere file (.sp) to Markdown conversion documentation
 - Integrated gen_md tool for automated content conversion
 - Removed unused `assets/img/` directory (468 files, 92MB)
-- Added `exclude:` configuration to prevent CLAUDE.md from being copied to _site
+- Added `exclude:` configuration to prevent CLAUDE.md from being copied to \_site
 - Created documentation in `docs/` directory
 - Updated README.md to Korean with proper documentation links
