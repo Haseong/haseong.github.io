@@ -166,7 +166,10 @@ Important notes:
 
 - **IMPORTANT**: Always use the current date for the output filename (e.g., if today is 2025-07-12, use `2025-07-12-title.md`)
 - The gen_md tool requires OpenAI API access (configured in `gen_md/.env`)
+  - Create a `.env` file in the `gen_md` directory with: `OPENAI_API_KEY=your_openai_api_key_here`
+  - An example `.env.example` file is provided as a template
 - Always run the converter from within the `gen_md` directory
+- Ensure npm dependencies are installed first: `npm install` in the `gen_md` directory
 - The tool automatically generates appropriate Jekyll front matter
 - Images in Sphere files are processed and converted
 - Tags are automatically extracted from content analysis

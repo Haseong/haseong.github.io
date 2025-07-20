@@ -385,8 +385,8 @@ async function processFile(inputPath, outputPath) {
     if (imageNodes.length > 0) {
       console.log(`   🖼️  Processing ${imageNodes.length} images...`);
       
-      // 이미지 저장 디렉토리 생성
-      const imageDir = '/Users/hs1512/source/writing/blog/assets/images/posts';
+      // 이미지 저장 디렉토리 생성 (상대 경로 사용)
+      const imageDir = path.join(process.cwd(), '..', 'assets', 'images', 'posts');
       await fs.mkdir(imageDir, { recursive: true });
       
       for (let i = 0; i < imageNodes.length; i++) {
