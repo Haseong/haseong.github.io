@@ -1,8 +1,1 @@
-# ads.txt for haseong.github.io
-# Google AdSense
 google.com, pub-5768014778427274, DIRECT, f08c47fec0942fa0
-
-# 다른 광고 네트워크를 추가로 사용하는 경우 아래에 추가하세요
-# 예시:
-# advertising.com, 12345, DIRECT
-# adtech.de, 67890, DIRECT
