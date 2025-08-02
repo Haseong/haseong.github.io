@@ -152,14 +152,14 @@ This project includes content authored in Sphere editor format (.sp files) locat
 Use the `gen_md` converter tool to transform .sp files into Jekyll-compatible Markdown posts:
 
 ```bash
-# Navigate to the gen_md directory (required for .env file)
-cd gen_md
-
-# Convert a single Sphere file to Markdown
-node program.js -i "../content/documents/Blog/[folder]/[file].sp" -o "../_posts/YYYY-MM-DD-post-title.md"
+# Convert a single Sphere file to Markdown (run from blog root directory)
+cd gen_md && node program.js -i "../content/Blog/[folder]/[file].sp" -o "../_posts/YYYY-MM-DD-post-title.md"
 
 # Example:
-node program.js -i "../content/documents/Blog/바이브 엔지니어링/바이브 엔지니어링: 코드 다음으로 AI가 정복할 영역.sp" -o "../_posts/2025-07-12-vibe-engineering.md"
+cd gen_md && node program.js -i "../content/Blog/바이브 엔지니어링/바이브 엔지니어링: 코드 다음으로 AI가 정복할 영역.sp" -o "../_posts/2025-07-12-vibe-engineering.md"
+
+# Another example:
+cd gen_md && node program.js -i "../content/Blog/AI시대에서의 저출산/AI 시대, 더 적은 게 더 큰 힘이다.sp" -o "../_posts/2025-08-02-ai-less-is-more.md"
 ```
 
 Important notes:
@@ -168,7 +168,7 @@ Important notes:
 - The gen_md tool requires OpenAI API access (configured in `gen_md/.env`)
   - Create a `.env` file in the `gen_md` directory with: `OPENAI_API_KEY=your_openai_api_key_here`
   - An example `.env.example` file is provided as a template
-- Always run the converter from within the `gen_md` directory
+- Run the converter from the blog root directory using `cd gen_md &&` prefix
 - Ensure npm dependencies are installed first: `npm install` in the `gen_md` directory
 - The tool automatically generates appropriate Jekyll front matter
 - Images in Sphere files are processed and converted
@@ -179,12 +179,12 @@ Important notes:
 
 ```
 content/
-├── documents/
-│   └── Blog/           # Blog post drafts in Sphere format
-│       └── [topic]/    # Organized by topic
-│           └── *.sp    # Individual Sphere files
-└── documents-welcome/  # Welcome/intro content
+└── Blog/               # Blog post drafts in Sphere format
+    └── [topic]/        # Organized by topic
+        └── *.sp        # Individual Sphere files
 ```
+
+Note: The actual content path is `content/Blog/` not `content/documents/Blog/`
 
 ### Post Conversion Workflow
 
