@@ -8,10 +8,15 @@ Crawl-delay: 1
 # 사이트맵 위치
 Sitemap: https://haseong.github.io/sitemap.xml
 
-# 특정 디렉토리를 크롤링에서 제외하고 싶은 경우
-# Disallow: /private/
-# Disallow: /temp/
+# 악성 봇 차단
+User-agent: AhrefsBot
+Disallow: /
 
-# 특정 봇 차단 예시
-# User-agent: BadBot
-# Disallow: /
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
