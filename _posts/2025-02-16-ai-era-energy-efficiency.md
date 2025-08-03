@@ -5,6 +5,8 @@ subtitle: 데이터센터 에너지 효율 혁신
 author: 정하성
 categories: Column
 tags: 에너지 데이터센터 AI 자유에너지이론
+excerpt: "AI 수요 급증으로 데이터센터의 전력 소비가 2026년까지 두 배로 늘어날 전망이며, 에너지 효율 혁신이 필수적입니다. ARM, RISC-V 등 저전력 고효율 칩과 구글 TPU 같은 AI 특화 하드웨어가 해결책으로 부상하고 있습니다. 데이터센터 설계 변경, 액체 냉각, 클라우드-엣지 역할 분담 등 포괄적 전략이 필요합니다. 에너지 효율이 곱 데이터센터 경쟁력이 되는 AI 시대가 도래했습니다."
+banner_image: "/assets/images/alphacode/alphacode.jpeg"
 ---
 
 

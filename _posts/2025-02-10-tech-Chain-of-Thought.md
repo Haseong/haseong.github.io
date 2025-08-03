@@ -5,6 +5,8 @@ subtitle: AI 다중 모델 협업
 author: 정하성
 categories: Tech
 tags: 인공지능 언어모델 CoT
+excerpt: "AI 모델 간 협업을 통한 Chain of Thought 구현은 복잡한 추론 문제 해결에 혁신적 접근법을 제시합니다. ChatGPT, Gemini, DeepSeek, Claude 등 각 모델의 강점을 결합한 협업 시스템은 단일 모델의 한계를 극복합니다. 메모리를 컨텍스트, 게이트, 계층으로 활용하는 세 가지 변형을 통해 효과적인 추론 체계를 구축할 수 있습니다. 실험 결과 협업 방식이 답변의 정확도와 신뢰성을 크게 향상시키는 것으로 나타났습니다."
+banner_image: "/assets/images/alphacode/alphacode.jpeg"
 ---
 
 

@@ -5,6 +5,8 @@ subtitle: 차세대 트렌스포머 아키텍쳐
 author: 정하성
 categories: Tech
 tags: 기술분석 TITANs 논문
+excerpt: "구글이 발표한 TITANs는 트랜스포머에 장기 기억을 통합한 차세대 아키텍처로, Transformer 2.0으로 불립니다. 단기, 장기, 영구 메모리의 3체계를 도입하여 기존 트랜스포머의 컨텍스트 윈도우 한계를 극복했습니다. 추론 시점에도 학습을 수행하며 210만 토큰까지 처리 가능한 이 기술은 AI의 인지 능력을 혁신적으로 향상시킵니다. 자연어 처리, 시계열 예측, 유전체 분석 등 다양한 분야에서 혁신적 성과가 기대됩니다."
+banner_image: "/assets/images/alphacode/alphacode.jpeg"
 ---
 
 

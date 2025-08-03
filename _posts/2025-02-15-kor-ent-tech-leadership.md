@@ -5,6 +5,8 @@ subtitle: 기술 중심 리더십
 author: 정하성
 categories: Column
 tags: 기술혁신 공학도 기술리더쉽
+excerpt: "글로벌 빅테크 CEO의 대부분이 공학도 출신인 반면, 한국 대기업의 기술통 CEO는 5%에 불과합니다. 생산 효율, 마케팅, 재무 중심 시대를 거쳐 이제 기술 혁신이 기업 경쟁력의 핵심이 되었습니다. 기술 중심 리더십은 변화를 빠르게 포착하고 데이터 기반 의사결정을 가능하게 합니다. 한국 기업의 미래 경쟁력은 기술 인재 육성과 CEO의 기술 이해도 향상에 달려 있습니다."
+banner_image: "/assets/images/alphacode/alphacode.jpeg"
 ---
 
 

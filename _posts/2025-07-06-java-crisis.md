@@ -5,8 +5,8 @@ date: 2025-07-06 13:36:01 +0900
 author: 정하성
 categories: [Blog]
 tags: [java, ai-coding-tools, kotlin-migration, software-development, cloud-native, programming-language-limitations, developer-productivity, performance-efficiency]
-summary: |
-  AI 코딩 도구의 확산으로 소프트웨어 개발 환경이 급변하며 Java가 도전에 직면하고 있습니다. 간결성은 높지만 Java는 보일러플레이트와 null 처리 문제로 AI 활용에 제약이 큽니다. Meta의 Kotlin 전환과 클라우드 환경에서의 Java 비효율성이 Java의 한계를 명확히 보여줍니다. 앞으로 Java가 AI 시대와 클라우드 네이티브 환경에서 경쟁력을 유지할 수 있을지 주목됩니다.
+excerpt: "AI 코딩 도구의 확산으로 소프트웨어 개발 환경이 급변하며 Java가 도전에 직면하고 있습니다. 간결성은 높지만 Java는 보일러플레이트와 null 처리 문제로 AI 활용에 제약이 큽니다. Meta의 Kotlin 전환과 클라우드 환경에서의 Java 비효율성이 Java의 한계를 명확히 보여줍니다. 앞으로 Java가 AI 시대와 클라우드 네이티브 환경에서 경쟁력을 유지할 수 있을지 주목됩니다."
+banner_image: "/assets/images/posts/2025-07-06-java-crisis.jpg"
 ---
 
 ![](/assets/images/posts/2025-07-06-java-crisis.jpg)

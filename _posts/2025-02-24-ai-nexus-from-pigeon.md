@@ -5,6 +5,7 @@ subtitle: 연결 기술이 바꾼 패권과 한국의 미래
 author: 정하성
 categories: Column
 tags: AI 연결체 패권 AI 패권경쟁 한국미래 디지털혁명 기술융합 글로벌경쟁 민간투자 정보혁신 인재양성
+banner_image: "/assets/images/alphacode/alphacode.jpeg"
 ---
 
 

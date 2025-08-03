@@ -5,8 +5,8 @@ date: 2025-07-20 16:14:15 +0900
 author: 정하성
 categories: [Blog]
 tags: [ai-industry, large-language-models, ai-agents, openai, cursor, meta, scale-ai, ai-market-shift]
-summary: |
-  600만 달러 투자로 GPT-4를 능가하는 AI 모델이 등장하며 산업 판도가 바뀌었습니다. 파라미터 경쟁 중심의 AI 가치가 효율성과 애플리케이션 중심으로 전환되는 긍정과 부정이 공존합니다. Cursor의 성공과 OpenAI의 위기는 AI 산업 변화의 구체적 사례로 주목받고 있습니다. AI 에이전트와 플랫폼 변화가 미래 생존 전략을 어떻게 바꿀지 관심이 집중되고 있습니다.
+excerpt: "600만 달러 투자로 GPT-4를 능가하는 AI 모델이 등장하며 산업 판도가 바뀌었습니다. 파라미터 경쟁 중심의 AI 가치가 효율성과 애플리케이션 중심으로 전환되는 긍정과 부정이 공존합니다. Cursor의 성공과 OpenAI의 위기는 AI 산업 변화의 구체적 사례로 주목받고 있습니다. AI 에이전트와 플랫폼 변화가 미래 생존 전략을 어떻게 바꿀지 관심이 집중되고 있습니다."
+banner_image: "/assets/images/posts/2025-07-20-the-illusion-collapsed-by-6-million-dollars.jpg"
 ---
 
 ![](/assets/images/posts/2025-07-20-the-illusion-collapsed-by-6-million-dollars.jpg)

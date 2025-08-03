@@ -293,7 +293,7 @@ async function downloadAndConvertImage(imageUrl, outputPath) {
 }
 
 // Jekyll front matter 생성
-function createFrontMatter(title, date, tags, summary) {
+function createFrontMatter(title, date, tags, summary, bannerImage) {
   // 한국 시간대(KST)로 날짜 포맷팅
   const kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000); // UTC + 9시간
   const year = kstDate.getUTCFullYear();
@@ -306,24 +306,26 @@ function createFrontMatter(title, date, tags, summary) {
   const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} +0900`;
   const tagList = tags.map((tag) => tag.trim()).join(", ");
 
-  // 요약문의 개행 문자를 실제 개행으로 변환하고 각 줄 앞에 들여쓰기 추가
-  const formattedSummary = summary
-    .split("\\n")
-    .map((line) => `  ${line}`)
-    .join("\n");
+  // 요약문의 개행을 공백으로 변환하여 한 줄로 만들기
+  const formattedExcerpt = summary.split("\\n").join(" ");
 
-  return `---
+  let frontMatter = `---
 layout: post
 title: "${title}"
 date: ${formattedDate}
 author: 정하성
 categories: [Blog]
 tags: [${tagList}]
-summary: |
-${formattedSummary}
----
+excerpt: "${formattedExcerpt}"`;
 
-`;
+  // banner_image가 있으면 추가
+  if (bannerImage) {
+    frontMatter += `\nbanner_image: "${bannerImage}"`;
+  }
+
+  frontMatter += `\n---\n\n`;
+
+  return frontMatter;
 }
 
 // 메인 프로그램
@@ -395,6 +397,7 @@ async function processFile(inputPath, outputPath) {
     const baseFileName = `${date}-${analysis.slug}`;
 
     // 이미지 처리
+    let bannerImage = null;
     if (imageNodes.length > 0) {
       console.log(`   🖼️  Processing ${imageNodes.length} images...`);
 
@@ -426,6 +429,10 @@ async function processFile(inputPath, outputPath) {
 
         if (success) {
           imagePaths[originalSrc] = webImagePath;
+          // 첫 번째 이미지를 banner_image로 설정
+          if (i === 0) {
+            bannerImage = webImagePath;
+          }
         }
       }
     }
@@ -450,7 +457,8 @@ async function processFile(inputPath, outputPath) {
         fileName, // 파일명을 제목으로 사용
         fileDate,
         analysis.tags,
-        analysis.summary
+        analysis.summary,
+        bannerImage
       ) + markdownWithImages;
 
     // 디렉토리 생성

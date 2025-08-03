@@ -5,8 +5,8 @@ date: 2025-07-26 12:46:52 +0900
 author: 정하성
 categories: [Blog]
 tags: [corporate-innovation, ai-integration, organizational-challenges, startup-agility, technology-disruption, legacy-systems, productivity, decision-making]
-summary: |
-  기술 혁신 시대에 대기업은 복잡한 조직 구조로 인해 신속한 변화에 어려움을 겪고 있습니다. 대기업은 안정성과 기존 성공에 안주하는 반면, 스타트업은 민첩성과 통합적 사고로 빠르게 혁신을 이뤄냅니다. WorkCom과 NewCom 사례에서 보듯, 거대 조직은 AI 도입에 느리지만 스타트업은 AI 도구를 활용해 생산성을 극대화합니다. 앞으로 대기업이 어떻게 민첩성을 확보하며 혁신을 지속할지가 중요한 과제로 떠오르고 있습니다.
+excerpt: "기술 혁신 시대에 대기업은 복잡한 조직 구조로 인해 신속한 변화에 어려움을 겪고 있습니다. 대기업은 안정성과 기존 성공에 안주하는 반면, 스타트업은 민첩성과 통합적 사고로 빠르게 혁신을 이뤄냅니다. WorkCom과 NewCom 사례에서 보듯, 거대 조직은 AI 도입에 느리지만 스타트업은 AI 도구를 활용해 생산성을 극대화합니다. 앞으로 대기업이 어떻게 민첩성을 확보하며 혁신을 지속할지가 중요한 과제로 떠오르고 있습니다."
+banner_image: "/assets/images/posts/2025-07-26-why-greatness-becomes-a-shackle.jpg"
 ---
 
 ![](/assets/images/posts/2025-07-26-why-greatness-becomes-a-shackle.jpg)

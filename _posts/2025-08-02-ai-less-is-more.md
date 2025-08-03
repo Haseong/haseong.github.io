@@ -5,8 +5,8 @@ date: 2025-08-02 14:59:07 +0900
 author: 정하성
 categories: [Blog]
 tags: [malthusian-theory, haber-bosch-process, population-growth, ai-impact, automation, future-of-work, environmental-crisis]
-summary: |
-  맬서스는 인구 증가와 식량 부족을 경고했습니다. 하버-보슈 공정은 인구 부양력을 획기적으로 늘렸습니다. AI는 인간 노동을 대체하며 인구 필요성을 줄입니다. 인구가 많은 것이 오히려 부담이 되는 시대가 도래했습니다.
+excerpt: "맬서스는 인구 증가와 식량 부족을 경고했습니다. 하버-보슈 공정은 인구 부양력을 획기적으로 늘렸습니다. AI는 인간 노동을 대체하며 인구 필요성을 줄입니다. 인구가 많은 것이 오히려 부담이 되는 시대가 도래했습니다."
+banner_image: "/assets/images/posts/2025-08-02-malthus-prediction-haber-bosch-miracle-ai-new-variable.jpg"
 ---
 
 ![](/assets/images/posts/2025-08-02-malthus-prediction-haber-bosch-miracle-ai-new-variable.jpg)
