@@ -87,3 +87,63 @@
     
   });
 </script>
+
+<!-- Additional SEO Meta Tags -->
+<meta name="author" content="{{ site.author }}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+
+<!-- Open Graph Protocol for better social media sharing -->
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="{{ site.title }}">
+{% if page.date %}
+<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+<meta property="article:author" content="{{ site.author }}">
+{% for tag in page.tags %}
+<meta property="article:tag" content="{{ tag }}">
+{% endfor %}
+{% endif %}
+
+<!-- Twitter Card tags -->
+<meta name="twitter:site" content="@{{ site.twitter.username | remove: '@' }}">
+<meta name="twitter:creator" content="@{{ site.twitter.username | remove: '@' }}">
+
+<!-- JSON-LD structured data for better search understanding -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{% if page.layout == 'post' %}BlogPosting{% else %}WebSite{% endif %}",
+  {% if page.layout == 'post' %}
+  "headline": "{{ page.title | escape }}",
+  "description": "{{ page.excerpt | strip_html | strip_newlines | truncate: 160 | escape }}",
+  "image": "{{ page.banner_image | default: site.logo | absolute_url }}",
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.date | date_to_xmlschema }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ page.author | default: site.author }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.title }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.logo | absolute_url }}"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  }
+  {% else %}
+  "name": "{{ site.title }}",
+  "description": "{{ site.description | escape }}",
+  "url": "{{ site.url }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ site.url }}/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+  {% endif %}
+}
+</script>

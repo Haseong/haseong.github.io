@@ -43,13 +43,24 @@ author: AIstar
 copyright: "Copyright © 2021-{currentYear} {author}"
 
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  AI와 기술의 미래를 탐구하는 AIstar 블로그. 인공지능, 머신러닝, 소프트웨어 개발, 
+  최신 기술 트렌드에 대한 깊이 있는 인사이트를 제공합니다.
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://haseong.github.io" # the base hostname & protocol for your site, e.g. https://example.com
 # favicon: "https://alphacode.ai/images/logo/logo.png" # the favicon for your site
+
+# SEO 관련 추가 설정
+twitter:
+  username: AIstar_blog
+  card: summary_large_image
+
+social:
+  name: AIstar
+  links:
+    - https://github.com/haseong
+
+logo: "/assets/images/banners/aistar-banner.jpg"
 
 # Yat date format
 # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
@@ -70,7 +81,7 @@ yat:
 # enableDNT: "false"
 
 # If you want to generate website sitemap, you can set true
-# sitemap: false
+sitemap: true
 
 # If you want to change site language, you can set lang option
 lang: "ko" # default lang is en
