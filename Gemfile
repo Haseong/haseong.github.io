@@ -8,7 +8,9 @@ gem "bundler", ">= 1.6", "< 3.0"
 
 gem "bigdecimal"
 gem "logger"
+gem "csv"
+gem "base64"
 
-# Replace jekyll-paginate with jekyll-paginate-v2
-gem "jekyll-paginate-v2", "~> 3.0"
+# GitHub Pages only supports jekyll-paginate, not jekyll-paginate-v2
+# gem "jekyll-paginate-v2", "~> 3.0"
 

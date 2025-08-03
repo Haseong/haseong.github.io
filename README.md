@@ -38,6 +38,9 @@ AlphaCode 기술 블로그는 Jekyll과 YAT 테마(v1.10.0)를 기반으로 구�
   - 다이어그램(PlantUML, Mermaid) 지원
 - Google 번역 지원
 - 신규 포스트 태그 표시
+- **Google AdSense 통합** (사이드바 및 포스트 하단)
+- **무한 스크롤 기능** (페이지네이션 자동 로드)
+- **SEO 최적화** (Open Graph, JSON-LD 구조화 데이터)
 
 ## 설치
 
@@ -45,11 +48,20 @@ Mac에서 Ruby와 Jekyll 설치하기:
 
 [Jekyll 설치 가이드](https://jekyllrb.com/docs/installation/macos/)
 
+### 필수 요구사항
+
+- Ruby 3.0 이상
+- RubyGems
+- GCC 및 Make
+- xz 유틸리티 (nokogiri 빌드용): `brew install xz`
+
 의존성 설치:
 
 ```bash
 $ bundle install
 ```
+
+**참고**: Ruby 3.4+ 사용 시 Gemfile에 `csv`와 `base64` gem이 필요합니다.
 
 ## 개발
 
@@ -88,9 +100,21 @@ $ bundle exec jekyll clean
    author: 작성자
    categories: [카테고리]
    tags: [태그1, 태그2]
+   banner_image: "/assets/images/alphacode/alphacode.jpeg"
    ---
    ```
 3. 마크다운으로 내용 작성
+
+### Sphere 파일에서 포스트 생성
+
+Sphere 편집기로 작성한 `.sp` 파일을 Jekyll 포스트로 변환:
+
+```bash
+# gen_md 디렉토리에서 실행
+cd gen_md && node program.js -i "../content/Blog/[폴더]/[파일].sp" -o "../_posts/YYYY-MM-DD-post-title.md"
+```
+
+**참고**: gen_md 도구는 OpenAI API 키가 필요합니다. `gen_md/.env` 파일에 설정하세요.
 
 ## 디렉토리 구조
 
@@ -102,10 +126,44 @@ $ bundle exec jekyll clean
 ├── _includes/       # 재사용 가능한 컴포넌트
 ├── _sass/           # SCSS 스타일시트
 ├── _data/           # 데이터 파일
+├── _plugins/        # Jekyll 플러그인 (GitHub Pages에서는 지원 안 함)
 ├── assets/          # 정적 파일 (이미지, CSS, JS)
+├── content/         # Sphere 편집기 콘텐츠 (.sp 파일)
+├── gen_md/          # Sphere to Markdown 변환 도구
 ├── docs/            # 프로젝트 문서
 └── _site/           # 빌드 출력 (gitignore됨)
 ```
+
+## GitHub Pages 배포
+
+이 블로그는 GitHub Pages에 최적화되어 있습니다. 
+
+### 주의사항
+
+- GitHub Pages는 사용자 정의 플러그인(`_plugins/`)을 지원하지 않습니다
+- `jekyll-paginate-v2`는 지원되지 않으므로 기본 `jekyll-paginate`를 사용합니다
+- AdSense는 production 환경에서만 표시됩니다
+
+### 배포 방법
+
+```bash
+git add .
+git commit -m "Update blog"
+git push origin main
+```
+
+## 문제 해결
+
+### Ruby 3.4+ 버전 오류
+Ruby 3.4 이상 사용 시 다음 gem들을 Gemfile에 추가해야 합니다:
+- `gem "csv"`
+- `gem "base64"`
+
+### 페이지네이션 404 오류
+GitHub Pages에서 `/page2/index-posts.html` 404 오류 발생 시:
+- `_plugins/minimal_pagination.rb` 비활성화
+- `jekyll-paginate-v2` 제거
+- 기본 `jekyll-paginate` 사용
 
 ## 라이선스
 

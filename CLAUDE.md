@@ -96,7 +96,6 @@ The YAT theme provides:
 - **jekyll-seo-tag**: Adds meta tags for SEO
 - **jekyll-sitemap**: Creates sitemap.xml
 - **jekyll-paginate**: Provides pagination functionality
-- **jekyll-spaceship**: Extends Markdown with tables, math, media embeds, and diagrams
 
 ## Development Guidelines
 
@@ -105,7 +104,6 @@ The YAT theme provides:
 1. Create file in `_posts/` with format: `YYYY-MM-DD-title.md`
 2. Include front matter with title, categories, tags, and banner_image
 3. Use Korean language for content consistency
-4. Leverage jekyll-spaceship features for rich content
 
 Example front matter: date is now date.
 
@@ -117,6 +115,7 @@ date: 2025-01-30 12:00:00 +0900
 author: 작성자
 categories: [카테고리]
 tags: [태그1, 태그2]
+excerpt: "요약내용"
 banner_image: "/assets/images/alphacode/alphacode.jpeg"
 ---
 ```
@@ -132,7 +131,6 @@ banner_image: "/assets/images/alphacode/alphacode.jpeg"
 - Store in `assets/images/` organized by post or purpose
 - Banner images default to `/assets/images/alphacode/alphacode.jpeg`
 - Optimize images for web performance
-- Note: `assets/img/` directory has been removed (92MB of unused files)
 
 ### Common Tasks
 
@@ -184,7 +182,7 @@ content/
         └── *.sp        # Individual Sphere files
 ```
 
-Note: The actual content path is `content/Blog/` not `content/documents/Blog/`
+Note: The actual content path is `content/Blog/`
 
 ### Post Conversion Workflow
 
@@ -193,12 +191,3 @@ Note: The actual content path is `content/Blog/` not `content/documents/Blog/`
 3. Run the converter with appropriate input/output paths
 4. Review generated Markdown file in `_posts/`
 5. Commit and push changes to publish
-
-## Recent Changes
-
-- Added Sphere file (.sp) to Markdown conversion documentation
-- Integrated gen_md tool for automated content conversion
-- Removed unused `assets/img/` directory (468 files, 92MB)
-- Added `exclude:` configuration to prevent CLAUDE.md from being copied to \_site
-- Created documentation in `docs/` directory
-- Updated README.md to Korean with proper documentation links

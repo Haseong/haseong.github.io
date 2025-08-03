@@ -40,21 +40,13 @@
     
     try {
       const nextPage = currentPage + 1;
-      // 최소화된 버전 파일을 먼저 시도
-      const minimalPageUrl = nextPage === 2 ? '/page2/index-posts.html' : `/page${nextPage}/index-posts.html`;
+      // GitHub Pages는 index.html만 생성하므로 직접 요청
       const fullPageUrl = nextPage === 2 ? '/page2/' : `/page${nextPage}/`;
       // Fetching next page
       
-      // 먼저 최소화된 버전을 시도
-      let response = await fetch(minimalPageUrl);
-      let useMinimal = true;
-      
-      // 최소화된 버전이 없으면 전체 페이지 요청
-      if (!response.ok) {
-        // Minimal version not found, trying full page
-        response = await fetch(fullPageUrl);
-        useMinimal = false;
-      }
+      // 전체 페이지 요청
+      let response = await fetch(fullPageUrl);
+      let useMinimal = false;
       // Response received
       if (!response.ok) {
         hasMorePages = false;
@@ -63,58 +55,33 @@
       
       const html = await response.text();
       
-      if (useMinimal) {
-        // 최소화된 버전은 이미 li 요소들만 포함
+      // 전체 페이지에서 post-list 추출
+      const postListMatch = html.match(/<ul class="post-list">([\s\S]*?)<\/ul>/);
+      
+      if (postListMatch) {
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
+        tempDiv.innerHTML = postListMatch[1];
         
-        // li 요소들만 추출하여 추가
         const newPosts = tempDiv.querySelectorAll('li');
         newPosts.forEach(post => {
           postList.appendChild(post);
         });
         
-        // Posts added from minimal page
+        // Posts added from full page
       } else {
-        // 전체 페이지에서 post-list 추출
-        const postListMatch = html.match(/<ul class="post-list">([\s\S]*?)<\/ul>/);
-        
-        if (postListMatch) {
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = postListMatch[1];
-          
-          const newPosts = tempDiv.querySelectorAll('li');
-          newPosts.forEach(post => {
-            postList.appendChild(post);
-          });
-          
-          // Posts added from full page
-        } else {
-          // Could not find post-list in response
-          hasMorePages = false;
-          return;
-        }
+        // Could not find post-list in response
+        hasMorePages = false;
+        return;
       }
       
       // 페이지네이션 정보 업데이트
-      if (useMinimal) {
-        // 최소화된 버전에서는 주석으로 정보 확인
-        const paginationInfoMatch = html.match(/<!--P:(\d+)\/(\d+)-->/);
-        if (paginationInfoMatch) {
-          currentPage = parseInt(paginationInfoMatch[1]);
-          const totalPages = parseInt(paginationInfoMatch[2]);
-          hasMorePages = currentPage < totalPages;
-          // Pagination info updated from minimal
-        }
-      } else {
-        // 전체 페이지에서 정규식으로 추출
-        const paginatorMatch = html.match(/<span class="indicator">\s*(\d+)\/(\d+)\s*<\/span>/);
-        if (paginatorMatch) {
-          currentPage = parseInt(paginatorMatch[1]);
-          const totalPages = parseInt(paginatorMatch[2]);
-          hasMorePages = currentPage < totalPages;
-          // Pagination info updated from full
-        }
+      // 전체 페이지에서 정규식으로 추출
+      const paginatorMatch = html.match(/<span class="indicator">\s*(\d+)\/(\d+)\s*<\/span>/);
+      if (paginatorMatch) {
+        currentPage = parseInt(paginatorMatch[1]);
+        const totalPages = parseInt(paginatorMatch[2]);
+        hasMorePages = currentPage < totalPages;
+        // Pagination info updated from full
       }
       
       if (!hasMorePages) {
