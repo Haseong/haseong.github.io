@@ -1,15 +1,15 @@
 ---
 layout: post
 title: "에이전트의 이해: RPA에서 E2E까지"
-date: 2025-09-06 14:56:29 +0900
+date: 2025-09-06 15:07:26 +0900
 author: 정하성
 categories: [Blog]
-tags: [rpa, workflow-automation, llm, langgraph, e2e-agent, ai-automation, agentic-automation, digital-transformation]
-excerpt: "RPA와 Workflow는 업무 자동화의 기초를 다졌습니다. 최신 LLM과 LangGraph로 더욱 복잡한 워크플로우를 구현합니다. 하지만 여전히 규칙 기반 한계를 넘어설 필요가 있습니다. E2E 에이전트가 인간처럼 상황에 유연히 대응합니다."
-banner_image: "/assets/images/posts/2025-09-06-workflow-advancements-and-limitations.jpg"
+tags: [workflow, rpa, agent, automation, llm, e2e-agent, ai-automation, langgraph]
+excerpt: "Workflow 방식은 RPA의 한계를 극복하기 위해 발전했습니다. 하지만 여전히 규칙 기반이라 예외 상황 대응이 어렵습니다. E2E 방식은 인간처럼 상황 판단과 행동 교정이 가능합니다. AI 기반 자동화의 새로운 패러다임으로 주목받고 있습니다."
+banner_image: "/assets/images/posts/2025-09-06-workflow-evolution-and-limitations.jpg"
 ---
 
-![](/assets/images/posts/2025-09-06-workflow-advancements-and-limitations.jpg)
+![](/assets/images/posts/2025-09-06-workflow-evolution-and-limitations.jpg)
 
 에이전트란 무엇인가. 에이전트는 전통적 방식에서 시작해 RPA, Workflow를 거쳐 현재의 E2E 방식으로 진화해왔다. RPA로 전통적으로 수익을 창출해온 Zapier 같은 기업들이 1세대 에이전트를 대표한다면, Workflow 방식이 2세대 에이전트이고, 오늘 소개할 E2E 방식이 3세대 에이전트라고 할 수 있다.
 
@@ -43,9 +43,9 @@ E2E 방식의 가장 큰 특징은 기존 Workflow가 처리하지 못했던 규
 
 여기서 가장 중요한 것은 '행동의 교정'이다. Workflow 방식은 오류가 발생하면 처리를 멈추지만, E2E는 오류를 인식하고 계획을 수정하며 행동을 교정한다. 이는 인간이 새로운 일을 수행할 때와 동일한 방식이다. 우리는 해보지 않은 일을 할 때 유사한 경험을 참조하여 가정을 세우고, 이를 바탕으로 계획을 수립한 뒤 실행한다. 문제가 발생하면 계획을 수정하고 다시 시도한다.
 
-이러한 동작 방식을 'Try & Error'라고 부른다. LLM 학습에서 보상 처리를 통해 개선하듯이, E2E 에이전트도 Try & Error를 통해 지속적으로 작동한다. 이처럼 무한히 반복되는 특성 때문에 'AgentLoop'라고도 불리며, 이는 E2E와 같은 개념이다.
+이러한 동작 방식을 'Trial & Error'라고 부른다. LLM 학습에서 보상 처리를 통해 개선하듯이, E2E 에이전트도 Trial & Error를 통해 지속적으로 작동한다. 이처럼 무한히 반복되는 특성 때문에 'AgentLoop'라고도 불리며, 이는 E2E와 같은 개념이다.
 
-물론 E2E 에이전트도 완전히 백지 상태에서 시작하는 것보다는 기초 정보가 있는 것이 효율적이다. Workflow 방식의 장점인 체계적 처리를 활용하되, E2E의 유연성을 더한다면 최적의 결과를 얻을 수 있다. 에이전트가 학습한 사실이나 계획을 문서로 정리하여 제공하면 Try & Error 횟수를 크게 줄일 수 있다. 이는 매우 중요한데, 반복 횟수는 곧 토큰 사용량이고 비용이기 때문이다. 따라서 LLM이 가장 잘 이해하는 Markdown 형식으로 문서를 제공하는 것이 가장 효과적이다.
+물론 E2E 에이전트도 완전히 백지 상태에서 시작하는 것보다는 기초 정보가 있는 것이 효율적이다. Workflow 방식의 장점인 체계적 처리를 활용하되, E2E의 유연성을 더한다면 최적의 결과를 얻을 수 있다. 에이전트가 학습한 사실이나 계획을 문서로 정리하여 제공하면 Trial & Error 횟수를 크게 줄일 수 있다. 이는 매우 중요한데, 반복 횟수는 곧 토큰 사용량이고 비용이기 때문이다. 따라서 LLM이 가장 잘 이해하는 Markdown 형식으로 문서를 제공하는 것이 가장 효과적이다.
 
 ## 휴머노이드 시대를 위한 E2E의 의미
 
