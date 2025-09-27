@@ -191,3 +191,60 @@ Note: The actual content path is `content/Blog/`
 3. Run the converter with appropriate input/output paths
 4. Review generated Markdown file in `_posts/`
 5. Commit and push changes to publish
+
+## Post Export and Compilation Tools
+
+### Combining All Posts into a Single File
+
+The `gen_md/combine_posts.py` script combines all blog posts from `_posts/` into a single Markdown file for easy review or export:
+
+```bash
+# Run from the gen_md directory
+cd gen_md && python combine_posts.py
+
+# This will:
+# - Read all .md files from the _posts/ directory
+# - Sort them by date (extracted from filename)
+# - Combine into all_posts_combined.md
+# - Remove Jekyll front matter from each post
+# - Add section headers with date and title
+```
+
+Output:
+- Creates `gen_md/all_posts_combined.md` with all posts
+- Includes generation timestamp and post count
+- Posts are separated with horizontal rules
+
+### Converting Combined Posts to Word Document
+
+The `gen_md/convert_to_docx.py` script converts the combined Markdown file to a Word document:
+
+```bash
+# First, combine all posts
+cd gen_md && python combine_posts.py
+
+# Then convert to Word format
+python convert_to_docx.py
+
+# This will:
+# - Read all_posts_combined.md
+# - Convert to all_posts_combined.docx
+# - Preserve basic formatting (headers, bold, italic)
+# - Format code blocks with monospace font
+# - Add page breaks between posts
+```
+
+Features:
+- Preserves Markdown formatting (headers, lists, emphasis)
+- Converts code blocks to monospace font
+- Handles blockquotes with italic styling
+- Creates proper document hierarchy with headings
+- Outputs file size information
+
+### Use Cases
+
+These tools are useful for:
+- Creating offline documentation of all blog posts
+- Generating reports or compilations for review
+- Exporting content for backup or migration
+- Sharing blog content in traditional document formats
