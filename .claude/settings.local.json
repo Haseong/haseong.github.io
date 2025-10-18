@@ -3,7 +3,10 @@
     "allow": [
       "Bash(git :*)",
       "Bash(git commit:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Read(//Users/hs1512/Library/CloudStorage/GoogleDrive-haseong@alphacode.co.kr/Other computers/Macbook_Pro/content/documents/Blog/**)",
+      "Bash(node program.js:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
