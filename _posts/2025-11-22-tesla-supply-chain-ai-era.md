@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "테슬라 공급망 분리와 AI 분열 시대: 다른 세계"
+title: "테슬라 공급망 분리와 AI 분열"
 date: 2025-11-22 17:13:37 +0900
 author: 정하성
 categories: [Blog]
