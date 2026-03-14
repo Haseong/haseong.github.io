@@ -94,3 +94,13 @@ OpenAI의 Codex는 주간 활성 사용자가 160만 명을 돌파했고 2026년
 정리하면 이런 그림이다. 20년 전 한국의 SI 회사들이 자체 프레임워크로 개발자의 생산성을 높였다. 그 프레임워크들은 오픈소스의 성숙과 표준프레임워크의 등장으로 보편화되었고, 프레임워크 자체는 경쟁력이 아닌 기본값이 되었다. 지금 같은 일이 다시 반복되고 있다. GitHub, IDE, CI/CD로 대표되는 현재의 개발 환경은 사람을 위해 설계된 것이다. 그러나 개발의 주체가 에이전트로 이동하면서, 에이전트를 위한 환경이 새로운 프레임워크로 부상하고 있다. 카파시의 autoresearch와 agenthub는 그 첫 번째 스케치이고, 돔케의 Entire는 그 스케치를 산업 규모로 구현하려는 첫 번째 회사다.
 
 지금 이 환경을 설계하는 것이 곧 다음 시대의 경쟁력이다. 20년 전 프레임워크를 만들 수 있느냐가 개발자의 실력을 증명했듯이, 앞으로는 에이전트가 자율적으로 일할 수 있는 환경을 설계할 수 있느냐가 새로운 기준이 될 것이다. 사람과 에이전트 사이의 자동 피드백 시스템이 동작하는 환경, Human의 최소 통제 속에서 Agent가 먼저 행동하는 구조. 그것이 AI 코딩 시대의 프레임워크다. 그리고 이 프레임워크를 먼저 완성하는 자가, 20년 전의 프레임워크 개발자들이 그랬듯이, 다음 시대의 표준을 정의하게 될 것이다.
+
+## 참고 자료
+
+- [Andrej Karpathy - autoresearch (GitHub)](https://github.com/karpathy/autoresearch)
+- [Andrej Karpathy - agenthub (GitHub)](https://github.com/karpathy/agenthub)
+- [Former GitHub CEO Bets $60M That Developer Tools Need a Factory Reset (DevOps.com)](https://devops.com/former-github-ceo-bets-60m-that-developer-tools-need-a-factory-reset-for-the-ai-age/)
+- [Dario Amodei at CFR - AI Could Write 90% Of Code (Yahoo Finance)](https://finance.yahoo.com/news/anthropic-ceo-says-ai-could-193020957.html)
+- [Cursor Cloud Agents (DevOps.com)](https://devops.com/cursor-cloud-agents-get-their-own-computers-and-35-of-internal-prs-to-prove-it/)
+- [Devin 2025 Performance Review (Cognition AI)](https://cognition.ai/blog/devin-annual-performance-review-2025)
+- [Vibe Coding is Passé (The New Stack)](https://thenewstack.io/vibe-coding-is-passe/)
