@@ -6,10 +6,10 @@ author: 정하성
 categories: [Blog]
 tags: [AI, Agent, Code Accountability, QA, OpenClaw, Hermes, Hammurabi, Software Quality, Korea]
 excerpt: "약 3,800년 전 함무라비는 검은 돌기둥에 '만든 자가 결과에 책임진다'는 원칙을 새겼다. 인공지능이 코드를 쓰기 시작하면서 4천 년을 관통한 이 원칙에 처음으로 균열이 생기고 있다. 서명을 남기지 않는 새로운 건축가, 미끄러져 사라지는 책임, 그리고 진짜 전선이 된 QA. 오픈클로의 균열과 앱스토어가 이미 걸어간 길을 통해, 코드를 만든 자가 사라진 시대에 무너지지 않는 것을 세우는 자는 누구인가를 묻는다."
-banner_image: "/assets/images/posts/2026-05-31-code-without-accountability.jpg"
+banner_image: "/blog/assets/images/posts/2026-05-31-code-without-accountability.jpg"
 ---
 
-![](/assets/images/posts/2026-05-31-code-without-accountability.jpg)
+![](/blog/assets/images/posts/2026-05-31-code-without-accountability.jpg)
 
 지금으로부터 약 3,800년 전, 바빌론의 왕 함무라비는 검은 돌기둥에 법을 새겼다. 그 가운데 한 조항은 건축가를 향한다. 건축가가 집을 지었는데 견고하게 짓지 못하여 집이 무너지고 그 집의 주인이 죽으면, 그 건축가를 사형에 처한다는 것이다. 집주인의 아들이 죽으면 건축가의 아들을 죽이라는 조항도 뒤를 잇는다. 잔혹하게 들리지만 그 안에는 단순하고 강력한 원칙이 들어 있다. 무언가를 만든 자는 그 결과에 책임을 진다는 원칙이다.
 
