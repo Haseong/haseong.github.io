@@ -6,10 +6,10 @@ author: 정하성
 categories: [Blog]
 tags: [암호전쟁, PGP, 필지머만, 수출통제, 앤트로픽, Fable, Mythos, 가드레일, LLM, 프롬프트인젝션, NeMoGuardrails, 폴백, 프론티어모델, AI통제, 컴플라이언스, 거버넌스, 보안, 샌드박싱, AI안전, Opus]
 excerpt: "1991년 강한 암호가 무기 목록에 오른 지 한 세대 만에, 이번엔 가장 강한 지능이 수출통제 목록에 올랐다. 앤트로픽은 자사 최강 모델 Mythos를 스스로 거둬들이고, 같은 모델에 재갈을 물린 Fable을 내놓았다. 확률로 움직이는 LLM은 규칙처럼 통제할 수 없기에 바깥에 문지기(가드레일)를 세우지만, 그 대가로 성능이 폴백되고 프론티어는 닫힌다. 진짜 질문은 가드레일을 둘 것인가가 아니라, 그 문지기를 안에 가둔 지능만큼 똑똑하게 만들 수 있는가이다."
-banner_image: "/assets/images/posts/sealed-intelligence-when-control-swallows-performance.jpg"
+banner_image: "/assets/images/posts/2026-07-18-sealed-intelligence-when-control-swallows-performance.jpg"
 ---
 
-![](/assets/images/posts/sealed-intelligence-when-control-swallows-performance.jpg)
+![](/assets/images/posts/2026-07-18-sealed-intelligence-when-control-swallows-performance.jpg)
 
 1991년 6월, 소프트웨어 한 편이 법의 눈에는 무기였다. 필지머만이라는 엔지니어가 PGP라는 이메일 암호화 프로그램을 인터넷에 올렸다. 코드가 국경을 넘어 퍼지자 미국 정부는 그것을 미사일이나 수류탄을 밀수한 것과 같은 범주로 다뤘다. 무기수출통제법이 강한 암호를 탄약과 나란히 규제 품목에 올려두었기 때문이다. 기이한 것은 대상이 완전히 같은 코드였다는 점이다. 그 코드를 종이책으로 인쇄하거나 티셔츠에 새기면 수정헌법 제1조가 보호하는 표현이었고, 같은 내용을 인터넷에 파일로 올리면 국경을 넘는 순간 밀수 무기가 되었다. 지머만은 3년 동안 연방 범죄 수사를 받았다. 그의 편에 선 MIT 출판부는 PGP의 소스코드를 아예 책으로 찍어 유럽 서점에 실어 보냈다. 책은 무기가 아니라 말이었기 때문이다. 한편 정부는 열쇠를 미리 맡겨 두는 특수 암호칩을 밀어붙이기도 했다. 강한 암호를 허용하되 필요할 때 정부가 들여다볼 뒷문을 심어 두겠다는 발상이었고, 그 시도는 실패로 끝났다.
 
