@@ -4,6 +4,9 @@
   "description": "Convert Tiptap JSON files to Jekyll markdown posts",
   "main": "program.js",
   "type": "module",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "start": "node program.js"
   },
@@ -22,7 +25,7 @@
     "glob": "^10.3.10",
     "node-fetch": "^3.3.2",
     "openai": "^4.52.0",
-    "sharp": "^0.34.2",
+    "sharp": "^0.35.3",
     "tiptap-markdown": "^0.8.9"
   },
   "keywords": [
