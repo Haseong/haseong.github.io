@@ -1,0 +1,939 @@
+---
+layout: default
+title: "아스트라의 순환추론"
+permalink: /astra-recurrent-depth/
+description: "GPT-6 아스트라가 쓴다고 보도된 순환 깊이(recurrent depth)를 도식과 애니메이션으로 설명한다."
+---
+
+<style>
+
+.astra-viz{
+  --bg:#f7f8fb; --bg2:#eef1f7; --card:#ffffff; --card2:#f2f4f9;
+  --ink:#14171f; --sub:#515a6e; --dim:#6f7891;
+  --line:#e2e6ef; --line2:#d2d8e6;
+  --blue:#2f5fe0; --blue-d:#e4ebff;
+  --green:#0f9b6c; --green-d:#dcf5ec;
+  --amber:#c17a06; --amber-d:#fdf0d8;
+  --pink:#d63f79; --pink-d:#fde8f0;
+  --purple:#6d4fd6; --purple-d:#ece6fd;
+  --red:#d13b3b;
+}
+.astra-viz *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+.astra-viz {scroll-behavior:smooth}
+.astra-viz{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(ellipse 80% 50% at 50% -8%, rgba(47,95,224,.10), transparent);
+}
+.astra-viz .wrap{max-width:860px;margin:0 auto;padding:0 18px 90px}
+.astra-viz code,.astra-viz .mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;font-size:.9em}
+
+/* ---------- hero ---------- */
+.astra-viz header.hero{padding:64px 0 30px;text-align:center;position:relative}
+.astra-viz .eyebrow{font-size:12px;letter-spacing:.22em;color:var(--blue);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+.astra-viz h1{font-size:clamp(30px,6vw,46px);line-height:1.15;margin:0 0 14px;letter-spacing:-1.3px;font-weight:800}
+.astra-viz h1 .g{background:linear-gradient(100deg,var(--blue),var(--purple) 45%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.astra-viz .lede{color:#4a5266;font-size:17px;max-width:600px;margin:0 auto 22px;word-break:keep-all}
+.astra-viz .stamp{display:inline-flex;gap:8px;align-items:center;font-size:12.5px;color:#5b6478;background:#fff;border:1px solid var(--line2);border-radius:999px;padding:7px 15px}
+.astra-viz .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(15,155,108,.18);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---------- toc ---------- */
+.astra-viz nav.toc{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:26px 0 10px}
+.astra-viz nav.toc a{font-size:12.5px;color:#414a5e;background:#fff;border:1px solid var(--line2);border-radius:999px;padding:7px 14px;text-decoration:none;transition:.18s;box-shadow:0 1px 2px rgba(20,25,40,.05);font-weight:550}
+.astra-viz nav.toc a:hover{color:var(--blue);border-color:var(--blue);background:var(--blue-d)}
+
+/* ---------- sections ---------- */
+.astra-viz section{margin:56px 0 0;scroll-margin-top:20px}
+.astra-viz .snum{font-size:11px;letter-spacing:.2em;color:var(--blue);font-weight:700;margin-bottom:8px}
+.astra-viz h2{font-size:clamp(21px,3.6vw,27px);margin:0 0 12px;letter-spacing:-.6px;font-weight:750;word-break:keep-all}
+.astra-viz h3{font-size:16.5px;margin:26px 0 10px;letter-spacing:-.3px;color:var(--ink)}
+.astra-viz p{color:#3a4256;word-break:keep-all;margin:0 0 14px}
+.astra-viz p.note{color:#4a5266;font-size:14.5px}
+.astra-viz b,.astra-viz strong{color:#0d1017;font-weight:680}
+.astra-viz .hl{color:var(--amber);font-weight:600}
+.astra-viz .hl2{color:var(--green);font-weight:600}
+
+.astra-viz .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 1px 3px rgba(20,25,40,.05),0 8px 24px rgba(20,25,40,.04)}
+.astra-viz .card.tight{padding:16px}
+.astra-viz .cap{font-size:12.5px;color:#5f6879;text-align:center;margin-top:12px;line-height:1.5}
+
+/* ---------- controls ---------- */
+.astra-viz .ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.astra-viz button.b{
+  background:#fff;border:1px solid var(--line2);color:#2b3244;
+  padding:9px 17px;border-radius:10px;font-size:13.5px;cursor:pointer;font-weight:600;transition:.16s;
+  font-family:inherit;
+}
+.astra-viz button.b:hover{border-color:var(--blue);background:var(--blue-d)}
+.astra-viz button.b.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.astra-viz button.b:disabled{opacity:.4;cursor:default}
+.astra-viz input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;background:#dde2ec;outline:none;flex:1 1 180px;max-width:280px}
+.astra-viz input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 6px rgba(47,95,224,.45)}
+.astra-viz .val{font-variant-numeric:tabular-nums;font-weight:750;color:var(--blue);min-width:72px;text-align:center;font-size:14px}
+
+/* ---------- viz1: side by side ---------- */
+.astra-viz .vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.vs{grid-template-columns:1fr}}
+.astra-viz .pane{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 14px;position:relative;overflow:hidden}
+.astra-viz .pane h4{margin:0 0 4px;font-size:14px;letter-spacing:-.2px}
+.astra-viz .pane .sd{font-size:11.5px;color:#5f6879;margin-bottom:14px;min-height:16px}
+.astra-viz .stack{display:flex;flex-direction:column-reverse;gap:4px;align-items:center;min-height:250px;justify-content:flex-start}
+.astra-viz .lyr{
+  width:100%;max-width:210px;height:20px;border-radius:5px;
+  background:#fff;border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9.5px;color:#5f6879;transition:.25s;flex:0 0 auto;
+}
+.astra-viz .lyr.act{background:var(--blue-d);border-color:var(--blue);color:var(--blue);box-shadow:0 0 0 2px rgba(47,95,224,.22)}
+.astra-viz .lyr.rec{background:var(--green-d);border-color:var(--green);color:var(--green)}
+.astra-viz .lyr.rec.act{box-shadow:0 0 0 2px rgba(15,155,108,.28);transform:scaleX(1.05)}
+.astra-viz .lyr.pre{background:var(--purple-d);border-color:var(--purple);color:var(--purple)}
+.astra-viz .lyr.cod{background:var(--amber-d);border-color:var(--amber);color:var(--amber)}
+.astra-viz .badge{position:absolute;top:12px;right:12px;font-size:10.5px;padding:3px 9px;border-radius:99px;font-weight:700}
+.astra-viz .badge.b1{background:var(--blue-d);color:var(--blue)}
+.astra-viz .badge.b2{background:var(--green-d);color:var(--green)}
+.astra-viz .loopc{
+  position:absolute;left:50%;transform:translateX(-50%);bottom:12px;
+  font-size:11px;color:var(--green);font-weight:700;font-variant-numeric:tabular-nums;
+}
+.astra-viz .meters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.astra-viz .meter{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+.astra-viz .meter .k{font-size:11px;color:#5f6879;letter-spacing:.05em}
+.astra-viz .meter .v{font-size:17px;font-weight:750;font-variant-numeric:tabular-nums;margin-top:2px}
+.astra-viz .bar{height:5px;border-radius:99px;background:#e0e5ef;margin-top:7px;overflow:hidden}
+.astra-viz .bar i{display:block;height:100%;border-radius:99px;transition:width .3s}
+
+/* ---------- viz2: architecture ---------- */
+.astra-viz .arch{position:relative;padding:8px 0}
+.astra-viz .flowrow{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.astra-viz .blk{
+  border-radius:13px;padding:14px 16px;text-align:center;min-width:96px;
+  border:1.5px solid var(--line2);background:var(--card2);transition:.3s;position:relative
+}
+.astra-viz .blk .bt{font-size:13px;font-weight:750}
+.astra-viz .blk .bs{font-size:10.5px;color:#5f6879;margin-top:3px}
+.astra-viz .blk.p{border-color:var(--purple)}.blk.p .bt{color:var(--purple)}
+.astra-viz .blk.r{border-color:var(--green)}.blk.r .bt{color:var(--green)}
+.astra-viz .blk.c{border-color:var(--amber)}.blk.c .bt{color:var(--amber)}
+.astra-viz .blk.lit{box-shadow:0 6px 18px rgba(20,25,40,.10);transform:translateY(-3px)}
+.astra-viz .blk.p.lit{box-shadow:0 6px 20px rgba(109,79,214,.24)}
+.astra-viz .blk.r.lit{box-shadow:0 6px 20px rgba(15,155,108,.26)}
+.astra-viz .blk.c.lit{box-shadow:0 6px 20px rgba(193,122,6,.24)}
+.astra-viz .arw{color:#98a0b3;font-size:19px;transition:.3s}
+.astra-viz .arw.lit{color:var(--blue);text-shadow:none}
+.astra-viz .loopwrap{position:relative;display:inline-block}
+.astra-viz .looparc{
+  position:absolute;left:50%;transform:translateX(-50%);top:-34px;width:120px;height:34px;
+  border:2px solid var(--green);border-bottom:none;border-radius:60px 60px 0 0;opacity:.32;transition:.3s
+}
+.astra-viz .looparc.lit{opacity:1;box-shadow:0 3px 10px rgba(15,155,108,.25)}
+.astra-viz .looplab{position:absolute;top:-56px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--green);font-weight:750;white-space:nowrap}
+.astra-viz .inj{
+  margin-top:14px;padding:10px 14px;border:1px dashed var(--line2);border-radius:11px;
+  font-size:12.5px;color:#4a5266;text-align:center;transition:.3s
+}
+.astra-viz .inj.lit{border-color:var(--purple);color:var(--purple);background:var(--purple-d)}
+
+/* ---------- viz3: latent orbit ---------- */
+.astra-viz .orbwrap{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:center}
+@media(max-width:680px){.orbwrap{grid-template-columns:1fr}}
+.astra-viz canvas{width:100%;display:block;border-radius:13px;background:#f3f5fa;border:1px solid var(--line2)}
+.astra-viz .legend{display:flex;flex-direction:column;gap:9px}
+.astra-viz .lg{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:#4a5266;line-height:1.5}
+.astra-viz .lg i{width:11px;height:11px;border-radius:3px;flex:0 0 auto;margin-top:4px}
+
+/* ---------- viz4: KV cache ---------- */
+.astra-viz .kv{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+.astra-viz .tape{display:flex;flex-wrap:wrap;gap:3px;min-height:104px;align-content:flex-start;margin-top:10px}
+.astra-viz .tok{
+  padding:2px 6px;border-radius:4px;font-size:9.5px;
+  background:#fff;border:1px solid var(--line2);color:#4a5266;
+  animation:pop .3s ease-out;white-space:nowrap
+}
+.astra-viz .tok.think{background:var(--amber-d);border-color:var(--amber);color:var(--amber)}
+.astra-viz .tok.ans{background:var(--green-d);border-color:var(--green);color:var(--green)}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+.astra-viz .cachebar{margin-top:12px}
+.astra-viz .cachebar .lab{display:flex;justify-content:space-between;font-size:11.5px;color:#5f6879;margin-bottom:5px}
+.astra-viz .cachebar .track{height:9px;border-radius:99px;background:#e0e5ef;overflow:hidden}
+.astra-viz .cachebar .track i{display:block;height:100%;border-radius:99px;transition:width .35s}
+
+/* ---------- viz5: one-way ---------- */
+.astra-viz .oneway{display:flex;gap:5px;align-items:center;justify-content:center;flex-wrap:wrap;padding:6px 0}
+.astra-viz .stp{
+  width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;border:1.5px solid var(--line2);background:var(--card2);color:var(--dim);transition:.3s
+}
+.astra-viz .stp.done{border-color:var(--green);color:var(--green);background:var(--green-d)}
+.astra-viz .stp.bad{border-color:var(--red);color:var(--red);background:#fde3e3;animation:shake .4s}
+.astra-viz .stp.now{border-color:var(--blue);color:var(--blue);background:var(--blue-d);box-shadow:0 0 0 3px rgba(47,95,224,.18)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.astra-viz .msg{text-align:center;font-size:13.5px;margin-top:14px;min-height:44px;color:#4a5266;word-break:keep-all}
+
+/* ---------- bench chart ---------- */
+.astra-viz .bench{display:flex;flex-direction:column;gap:13px;margin-top:6px}
+.astra-viz .brow{display:grid;grid-template-columns:88px 1fr 54px;gap:11px;align-items:center}
+.astra-viz .brow .bn{font-size:12px;color:#4a5266;text-align:right;font-weight:550}
+.astra-viz .brow .btr{height:22px;background:#eaeef6;border-radius:6px;overflow:hidden;position:relative;border:1px solid var(--line2)}
+.astra-viz .brow .bf{height:100%;border-radius:5px;transition:width .75s cubic-bezier(.22,1,.36,1);background:linear-gradient(90deg,var(--blue-d),var(--blue))}
+.astra-viz .brow .bv{font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink)}
+
+/* ---------- table ---------- */
+.astra-viz .tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+.astra-viz .tbl th,.astra-viz .tbl td{padding:10px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;word-break:keep-all}
+.astra-viz .tbl th{color:#5f6879;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.astra-viz .tbl td:first-child{color:var(--sub);white-space:nowrap}
+.astra-viz .tbl tr:last-child td{border-bottom:none}
+.astra-viz .tag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:99px;font-weight:700;white-space:nowrap}
+.astra-viz .tag.ok{background:var(--green-d);color:var(--green)}
+.astra-viz .tag.rep{background:var(--amber-d);color:var(--amber)}
+.astra-viz .tag.spec{background:var(--pink-d);color:var(--pink)}
+
+/* ---------- callouts ---------- */
+.astra-viz .quote{
+  border-left:3px solid var(--blue);padding:4px 0 4px 18px;margin:20px 0;
+  color:#333b4d;font-size:15px;line-height:1.7;word-break:keep-all
+}
+.astra-viz .quote .who{display:block;margin-top:9px;font-size:12.5px;color:#5f6879}
+.astra-viz .warn{background:linear-gradient(180deg,rgba(255,92,92,.09),rgba(255,92,92,.03));border:1px solid rgba(255,92,92,.28);border-radius:14px;padding:16px 18px;margin:18px 0}
+.astra-viz .warn .wt{color:var(--red);font-weight:750;font-size:14px;margin-bottom:6px}
+.astra-viz .key{background:linear-gradient(180deg,rgba(61,220,151,.09),rgba(61,220,151,.03));border:1px solid rgba(61,220,151,.28);border-radius:14px;padding:16px 18px;margin:18px 0}
+.astra-viz .key .wt{color:var(--green);font-weight:750;font-size:14px;margin-bottom:6px}
+
+/* ---------- timeline ---------- */
+.astra-viz .tl{position:relative;padding-left:26px;margin-top:12px}
+.astra-viz .tl::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--purple),var(--blue),var(--green))}
+.astra-viz .tli{position:relative;padding-bottom:20px}
+.astra-viz .tli::before{content:'';position:absolute;left:-24px;top:6px;width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid var(--blue)}
+.astra-viz .tli.hi::before{background:var(--green);border-color:var(--green);box-shadow:0 0 12px var(--green)}
+.astra-viz .tli .y{font-size:11.5px;color:var(--blue);font-weight:750;letter-spacing:.05em}
+.astra-viz .tli .t{font-size:14.5px;font-weight:650;margin:2px 0 3px}
+.astra-viz .tli .d{font-size:13px;color:#3a4256;word-break:keep-all}
+
+.astra-viz footer{margin-top:70px;padding-top:26px;border-top:1px solid var(--line2);color:#5f6879;font-size:12.5px;text-align:center;line-height:1.8}
+.astra-viz footer a{color:var(--sub)}
+.astra-viz .reveal{opacity:1;transform:none}
+html.js-on 
+@media (prefers-reduced-motion:reduce){}
+.astra-viz .reveal.in{opacity:1;transform:none}
+
+
+html[data-theme="dark"] .astra-viz{
+  --bg:transparent; --bg2:#16181d; --card:#1a1d23; --card2:#22262e;
+  --ink:#dfe3ea; --sub:#9aa2b4; --dim:#7d8698;
+  --line:#2a2f3a; --line2:#39404e;
+  --blue:#7fa0ff; --blue-d:#1c2540;
+  --green:#3fc99a; --green-d:#12332a;
+  --amber:#e0a03c; --amber-d:#33290f;
+  --pink:#f0709e; --pink-d:#361723;
+  --purple:#a68cf0; --purple-d:#241c3d;
+  --red:#f06565;
+}
+html[data-theme="dark"] .astra-viz .lyr,
+html[data-theme="dark"] .astra-viz .blk,
+html[data-theme="dark"] .astra-viz .stp,
+html[data-theme="dark"] .astra-viz button.b,
+html[data-theme="dark"] .astra-viz .tok,
+html[data-theme="dark"] .astra-viz nav.toc a,
+html[data-theme="dark"] .astra-viz .stamp{background:#1a1d23}
+html[data-theme="dark"] .astra-viz canvas{background:#16181d}
+html[data-theme="dark"] .astra-viz .card{box-shadow:none}
+html[data-theme="dark"] .astra-viz p{color:#c3c9d6}
+html[data-theme="dark"] .astra-viz b,
+html[data-theme="dark"] .astra-viz strong{color:#fff}
+
+
+.astra-viz{background:transparent;padding:0;font-size:16px}
+.astra-viz .wrap{max-width:100%;padding:0}
+.astra-viz header.hero{padding:10px 0 24px}
+.astra-viz #top{display:none}
+.astra-viz canvas{max-width:100%}
+
+</style>
+
+<div class="astra-viz">
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Recurrent Depth · GPT-6 Astra</div>
+  <h1>아스트라의 <span class="g">순환추론</span><br>깊이를 접는 법</h1>
+  <p class="lede">층을 100개 쌓는 대신, 2개를 50번 돌린다.<br>파라미터는 줄고 사고는 깊어지는 대신 — 우리는 그 사고를 볼 수 없게 된다.</p>
+  <div class="stamp"><span class="dot"></span>2026. 09. 05 · 제임스 &amp; 알파의 대화 기록</div>
+  <nav class="toc">
+    <a href="#s1">한 장 요약</a><a href="#s2">기존 vs 순환</a><a href="#s3">3단 구조</a>
+    <a href="#s4">잠재공간</a><a href="#s5">KV 캐시</a><a href="#s6">되돌릴 수 없다</a>
+    <a href="#s7">숫자</a><a href="#s8">계보</a><a href="#s9">논쟁</a><a href="#s10">정리</a>
+  </nav>
+</header>
+
+<!-- ══════════ 1 ══════════ -->
+<section id="s1" class="reveal">
+  <div class="snum">01 — TL;DR</div>
+  <h2>한 문장으로</h2>
+  <p><b>같은 히든레이어 블록을 여러 번 재사용해서, 파라미터를 늘리지 않고 추론 깊이만 늘리는 구조다.</b></p>
+  <div class="key">
+    <div class="wt">비유: 컨베이어벨트 vs 작업대</div>
+    <p style="margin:0;color:#3a4256">기존 트랜스포머는 <b>100명이 한 줄로 서서 각자 한 번씩</b> 처리하는 컨베이어벨트다.
+    순환추론은 <b>2명이 같은 작업을 50번 주고받는</b> 작업대다.
+    거쳐간 횟수는 똑같이 100번인데, 고용한 사람은 2명뿐이다.</p>
+  </div>
+  <div class="meters" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+    <div class="meter"><div class="k">파라미터</div><div class="v" style="color:var(--green)">↓ 크게 감소</div></div>
+    <div class="meter"><div class="k">연산량 FLOPs</div><div class="v" style="color:var(--amber)">↑ 증가</div></div>
+    <div class="meter"><div class="k">KV 캐시</div><div class="v" style="color:var(--green)">→ 거의 불변</div></div>
+    <div class="meter"><div class="k">해석 가능성</div><div class="v" style="color:var(--red)">↓ 상실</div></div>
+  </div>
+  <p class="note" style="margin-top:16px">2026년 9월 1일 <i>The Information</i>이 오픈AI의 차세대 모델 <b>아스트라(Astra)</b>가
+  이 구조를 쓴다고 보도했다. 몇 시간 만에 아키텍처 각주에서 AI 안전 논쟁으로 번졌다.
+  <b>추론의 일부가 읽을 수 있는 문장에서 읽을 수 없는 숫자로 옮겨가기 때문</b>이다.</p>
+</section>
+
+<!-- ══════════ 2 ══════════ -->
+<section id="s2" class="reveal">
+  <div class="snum">02 — 핵심 비교</div>
+  <h2>기존 트랜스포머 vs 순환 깊이</h2>
+  <p>슬라이더로 순환 횟수를 바꿔보자. <span class="hl2">오른쪽은 블록이 2개뿐인데</span>, 실질 깊이는 왼쪽을 따라잡는다.</p>
+
+  <div class="card">
+    <div class="vs">
+      <div class="pane">
+        <div class="badge b1">고정 깊이</div>
+        <h4>표준 트랜스포머</h4>
+        <div class="sd">층마다 <b>다른</b> 가중치 · 한 번씩 통과</div>
+        <div class="stack" id="stkA"><div class="lyr">Layer 1</div><div class="lyr">Layer 2</div><div class="lyr">Layer 3</div><div class="lyr">Layer 4</div><div class="lyr">Layer 5</div><div class="lyr">Layer 6</div><div class="lyr">Layer 7</div><div class="lyr">Layer 8</div></div>
+      </div>
+      <div class="pane">
+        <div class="badge b2">순환 깊이</div>
+        <h4>Recurrent Depth</h4>
+        <div class="sd">같은 블록을 <b>반복</b> 통과 · 가중치 1벌</div>
+        <div class="stack" id="stkB"><div class="lyr pre">Prelude</div><div class="lyr rec">Core R1</div><div class="lyr rec">Core R2</div><div class="lyr cod">Coda</div></div>
+        <div class="loopc" id="loopc">↺ 8회 반복 중</div>
+      </div>
+    </div>
+
+    <div class="ctl">
+      <span style="font-size:13px;color:var(--sub)">순환 횟수 r</span>
+      <input type="range" id="rSlider" min="1" max="32" value="8">
+      <span class="val" id="rVal">8회</span>
+      <button class="b" id="playBtn">▶ 애니메이션</button>
+    </div>
+
+    <div class="meters">
+      <div class="meter">
+        <div class="k">저장 파라미터 (가중치)</div>
+        <div class="v" id="mParam"><span style="color:var(--blue)">10.0B</span> <span style="color:var(--dim);font-size:12px">vs</span> <span style="color:var(--green)">3.5B</span></div>
+        <div class="bar"><i id="bParam" style="background:var(--green)"></i></div>
+      </div>
+      <div class="meter">
+        <div class="k">실질 깊이 (materialized)</div>
+        <div class="v" id="mDepth"><span style="color:var(--blue)">14.0B</span> <span style="color:var(--dim);font-size:12px">실현</span></div>
+        <div class="bar"><i id="bDepth" style="background:var(--blue)"></i></div>
+      </div>
+    </div>
+    <div class="cap">파라미터는 <b>순환 블록 1벌 + 앞뒤 층</b>만 저장한다.
+    실제 논문 Huginn 기준 <span class="mono">실질 파라미터 = r × 1.5B + 2B</span></div>
+  </div>
+
+  <div class="key">
+    <div class="wt">여기서 갈리는 두 축</div>
+    <p style="margin:0 0 6px;color:#3a4256"><b>파라미터(가중치)</b> = 2명분만 저장 → 메모리·대역폭 절약</p>
+    <p style="margin:0;color:#3a4256"><b>연산량(FLOPs)</b> = 100번 다 돌아야 함 → 컴퓨트는 그대로거나 더 늘어남</p>
+  </div>
+  <p>그래서 논문은 이 설계를 <b>"compute-heavy"</b>라고 부른다.
+  실제 파라미터보다 <i>실현된(materialized)</i> 파라미터가 훨씬 많은 구조다.
+  <span class="hl">MoE(전문가 혼합)와는 정확히 거울상</span>이다 — MoE는 파라미터가 무겁고 연산이 가볍다.</p>
+</section>
+
+<!-- ══════════ 3 ══════════ -->
+<section id="s3" class="reveal">
+  <div class="snum">03 — 아키텍처</div>
+  <h2>프렐류드 · 코어 · 코다</h2>
+  <p>논문(Huginn, 3.5B)의 구조는 세 덩어리로 나뉜다. 반복되는 건 <b>가운데 코어뿐</b>이다.</p>
+
+  <div class="card">
+    <div class="arch">
+      <div class="flowrow">
+        <div class="blk p" id="bkP"><div class="bt">Prelude</div><div class="bs">입력 임베딩<br>1회만</div></div>
+        <span class="arw" id="ar1">→</span>
+        <div class="loopwrap">
+          <div class="looparc" id="arc"></div>
+          <div class="looplab" id="arclab">× r 회</div>
+          <div class="blk r" id="bkR"><div class="bt">Core (R)</div><div class="bs">순환 히든블록<br>여기가 반복</div></div>
+        </div>
+        <span class="arw" id="ar2">→</span>
+        <div class="blk c" id="bkC"><div class="bt">Coda</div><div class="bs">토큰 확률 출력<br>1회만</div></div>
+      </div>
+      <div class="inj" id="inj">↺ 매 반복마다 <b>원본 임베딩을 다시 주입</b> + 첫 상태는 <b>가우시안 노이즈</b>로 시작</div>
+    </div>
+    <div class="ctl"><button class="b" id="archBtn">▶ 흐름 재생</button></div>
+    <div class="cap">Prelude·Coda 약 1.5B / 임베딩 0.5B / <b>순환부 1.5B</b> — 이 1.5B가 r회 재사용된다</div>
+  </div>
+
+  <h3>왜 노이즈로 시작하고, 왜 임베딩을 다시 넣나</h3>
+  <p>둘 다 <b>순환을 안정시키기 위한 장치</b>다. 같은 블록을 계속 돌리면 상태가 발산하거나 붕괴하기 쉽다.
+  시작점을 랜덤하게 주고 원본을 계속 상기시키면, 루프가 <b>출발점과 무관한 정상상태로 수렴</b>한다.
+  이걸 <span class="hl">경로 독립성(path independence)</span>이라 부른다.</p>
+  <div class="warn">
+    <div class="wt">⚠ 여기가 나중에 중요해진다</div>
+    <p style="margin:0;color:#3a4256">매 토큰마다 <b>랜덤 초기화</b>된다는 건, <b>토큰 간에 이월되는 잠재상태가 없다</b>는 뜻이다.
+    "이전 상태로 돌아가 변분만 갱신"하는 게 구조적으로 불가능한 이유다. → <a href="#s6" style="color:var(--blue)">6장</a></p>
+  </div>
+</section>
+
+<!-- ══════════ 4 ══════════ -->
+<section id="s4" class="reveal">
+  <div class="snum">04 — 잠재공간</div>
+  <h2>말로 하지 않는 생각</h2>
+  <p>기존 추론 모델(CoT)은 <b>생각을 토큰으로 뱉어서</b> 깊이를 벌었다.
+  순환추론은 <b>아무것도 출력하지 않고 내부 벡터를 반복해서 다듬는다</b>.</p>
+
+  <div class="card">
+    <div class="orbwrap">
+      <canvas id="orb" width="760" height="380"></canvas>
+      <div class="legend">
+        <div class="lg"><i style="background:var(--blue)"></i><span><b>수렴형</b> — 쉬운 입력. 상태가 한 점으로 빠르게 안정된다</span></div>
+        <div class="lg"><i style="background:var(--amber)"></i><span><b>궤도형(orbiting)</b> — 수치 추론 프롬프트에서 관찰된 창발 현상. 한 점으로 모이지 않고 <b>회전 궤적</b>을 그린다</span></div>
+        <div class="lg"><i style="background:var(--pink)"></i><span><b>표류형</b> — 수렴 실패. 반복해도 나아지지 않는 경우</span></div>
+        <div style="margin-top:6px;font-size:12px;color:var(--dim);line-height:1.5">
+          논문 7장이 기록한 이 "궤도" 거동은 <b>영어로 옮길 자연스러운 표현이 없다.</b>
+          말로 표현하기 어려운 사고를 담을 수 있다는 주장의 근거이자, 동시에 감시가 불가능한 이유다.
+        </div>
+      </div>
+    </div>
+    <div class="ctl">
+      <button class="b on" data-orb="conv">수렴형</button>
+      <button class="b" data-orb="orbit">궤도형</button>
+      <button class="b" data-orb="drift">표류형</button>
+    </div>
+  </div>
+
+  <div class="quote">
+    "모든 내부 추론을 단 하나의 발화된 다음 토큰으로 밀어넣는 것은 낭비로 보인다.
+    어떤 계산은 애초에 말로 잘 표현되지 않는다."
+    <span class="who">— Geiping et al., <i>Scaling up Test-Time Compute with Latent Reasoning</i> (arXiv:2502.05171)</span>
+  </div>
+</section>
+
+<!-- ══════════ 5 ══════════ -->
+<section id="s5" class="reveal">
+  <div class="snum">05 — 메모리</div>
+  <h2>KV 캐시: 진짜 대체된 건 무엇인가</h2>
+  <p><b>KV 캐시가 커지는 이유는 레이어가 깊어서가 아니라 시퀀스가 길어서다.</b></p>
+  <p class="mono" style="background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--sub);font-size:13px;overflow-x:auto">
+    KV 캐시 = 2 × 레이어수 × <b style="color:var(--amber)">시퀀스길이</b> × 헤드차원 × 배치
+  </p>
+  <p>레이어 수도 계수로 들어가긴 한다. 순환 깊이로 물리 레이어가 100→2로 줄면 그만큼 줄어든다.
+  <b>하지만 진짜 대체되는 건 KV 캐시가 아니라 CoT다.</b>
+  CoT는 만 토큰씩 생각을 뱉고, 그게 곧 시퀀스 폭증 → 캐시 폭증의 원인이었다.</p>
+
+  <div class="card">
+    <div class="kv">
+      <div class="pane">
+        <h4 style="color:var(--amber)">CoT 추론</h4>
+        <div class="sd">생각을 토큰으로 출력 → 시퀀스 증가</div>
+        <div class="tape" id="tapeA"></div>
+        <div class="cachebar">
+          <div class="lab"><span>KV 캐시</span><span id="kvA">0 tok</span></div>
+          <div class="track"><i id="kvBarA" style="background:linear-gradient(90deg,var(--amber-d),var(--amber));width:0"></i></div>
+        </div>
+      </div>
+      <div class="pane">
+        <h4 style="color:var(--green)">순환 깊이</h4>
+        <div class="sd">잠재공간에서 반복 → 시퀀스 불변</div>
+        <div class="tape" id="tapeB"></div>
+        <div class="cachebar">
+          <div class="lab"><span>KV 캐시</span><span id="kvB">0 tok</span></div>
+          <div class="track"><i id="kvBarB" style="background:linear-gradient(90deg,var(--green-d),var(--green));width:0"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="ctl"><button class="b" id="kvBtn">▶ 같은 문제를 풀어보자</button></div>
+    <div class="cap">둘 다 같은 문제를 푼다. 왼쪽은 생각을 다 적고, 오른쪽은 속으로만 32번 돌린다.</div>
+  </div>
+
+  <div class="key">
+    <div class="wt">축이 이렇게 바뀐다</div>
+    <table class="tbl" style="margin-top:4px">
+      <tr><th></th><th>기존 CoT 추론</th><th>순환 깊이</th></tr>
+      <tr><td>깊이 확보</td><td>토큰을 길게 생성</td><td>히든레이어 반복</td></tr>
+      <tr><td>메모리</td><td style="color:var(--red)">KV 캐시 폭증</td><td style="color:var(--green)">거의 불변</td></tr>
+      <tr><td>연산</td><td>상대적으로 적음</td><td style="color:var(--amber)">FLOPs 증가</td></tr>
+      <tr><td>가시성</td><td style="color:var(--green)">읽을 수 있음</td><td style="color:var(--red)">읽을 수 없음</td></tr>
+    </table>
+  </div>
+  <p><b>메모리 문제를 연산 문제로 바꾼 것</b> — 이게 핵심이다.
+  그래서 반도체 업계에서 "HBM 용량 수요가 줄어드는 것 아니냐"는 논의가 나왔다.
+  다만 용량보다 <b>대역폭</b>의 중요성이 커지는 방향이라 단순 악재로 보긴 어렵다는 반론도 있다.</p>
+</section>
+
+<!-- ══════════ 6 ══════════ -->
+<section id="s6" class="reveal">
+  <div class="snum">06 — 한계</div>
+  <h2>틀리면 되돌아갈 수 있나? — 없다</h2>
+  <p>순환이라는 말 때문에 <b>DeltaNet 같은 상태공간 모델과 헷갈리기 쉽다.</b> 둘은 <b>순환의 축이 다르다.</b></p>
+
+  <table class="tbl">
+    <tr><th></th><th>DeltaNet 계열</th><th>순환 깊이</th></tr>
+    <tr><td>순환 축</td><td><b>시퀀스</b> 축</td><td><b>깊이</b> 축</td></tr>
+    <tr><td>상태</td><td>S<sub>t</sub> = S<sub>t-1</sub> + Δ 로 이월</td><td>토큰마다 <b>랜덤 초기화</b>, 이월 없음</td></tr>
+    <tr><td>"이전 상태"</td><td>존재함</td><td style="color:var(--red)">존재하지 않음</td></tr>
+    <tr><td>부분 갱신</td><td>이론상 논의 가능</td><td style="color:var(--red)">구조적으로 불가</td></tr>
+  </table>
+
+  <div class="card">
+    <div class="oneway" id="oneway"><div class="stp">1</div><div class="stp">2</div><div class="stp">3</div><div class="stp">4</div><div class="stp">5</div><div class="stp">6</div><div class="stp">7</div><div class="stp">8</div><div class="stp">9</div><div class="stp">10</div></div>
+    <div class="msg" id="owMsg">반복은 단방향 전진이다. 5번째에서 방향이 틀어져도 되돌아갈 수 없다.</div>
+    <div class="ctl">
+      <button class="b" id="owBtn">▶ 잘못된 추론 시뮬레이션</button>
+      <button class="b" id="owBtn2">↩ 되감기 시도</button>
+    </div>
+  </div>
+
+  <div class="warn">
+    <div class="wt">이중의 불가역성</div>
+    <p style="margin:0 0 8px;color:#3a4256"><b>1. 토큰 레벨</b> — 틀린 토큰을 이미 뱉었으면 확정이다.
+    일반 자기회귀 모델과 똑같이 "아니 다시 생각해보니…" 하고 <b>말로 자기수정</b>하는 수밖에 없다.</p>
+    <p style="margin:0;color:#3a4256"><b>2. 반복 레벨</b> — 10번 돌다 5번째에서 틀어져도 그 안에서 되돌릴 수 없다.
+    게다가 CoT는 중간 사고가 토큰으로 보이니 사람이 오류를 짚을 수라도 있는데,
+    이건 잠재공간이라 <b>어디서 틀어졌는지 보이지도 않는다.</b></p>
+  </div>
+  <p>구조가 제공하는 건 되감기가 아니라 <b class="hl2">조기 종료(adaptive exit)</b>다.
+  상태가 수렴하면 더 안 돌고 빠져나온다. <b>앞으로 덜 가는 것이지, 뒤로 가는 게 아니다.</b></p>
+</section>
+
+<!-- ══════════ 7 ══════════ -->
+<section id="s7" class="reveal">
+  <div class="snum">07 — 검증</div>
+  <h2>숫자로 보는 효과</h2>
+  <p>같은 가중치, 같은 800B 토큰 학습. <b>바꾼 건 테스트 시점의 순환 횟수뿐</b>이다.</p>
+
+  <div class="card">
+    <div class="ctl" style="margin:0 0 18px">
+      <span style="font-size:13px;color:var(--sub)">순환 횟수</span>
+      <button class="b" data-r="1">r=1</button>
+      <button class="b" data-r="8">r=8</button>
+      <button class="b" data-r="16">r=16</button>
+      <button class="b on" data-r="32">r=32</button>
+    </div>
+    <div class="bench" id="bench"><div class="brow"><div class="bn">ARC-E</div><div class="btr"><div class="bf" id="bf0" style="width:69.91%"></div></div><div class="bv" id="bv0">69.91</div></div><div class="brow"><div class="bn">ARC-C</div><div class="btr"><div class="bf" id="bf1" style="width:38.23%"></div></div><div class="bv" id="bv1">38.23</div></div><div class="brow"><div class="bn">HellaSwag</div><div class="btr"><div class="bf" id="bf2" style="width:65.21%"></div></div><div class="bv" id="bv2">65.21</div></div><div class="brow"><div class="bn">MMLU</div><div class="btr"><div class="bf" id="bf3" style="width:31.38%"></div></div><div class="bv" id="bv3">31.38</div></div><div class="brow"><div class="bn">OpenBookQA</div><div class="btr"><div class="bf" id="bf4" style="width:38.8%"></div></div><div class="bv" id="bv4">38.80</div></div><div class="brow"><div class="bn">PiQA</div><div class="btr"><div class="bf" id="bf5" style="width:76.22%"></div></div><div class="bv" id="bv5">76.22</div></div><div class="brow"><div class="bn">SciQ</div><div class="btr"><div class="bf" id="bf6" style="width:93.5%"></div></div><div class="bv" id="bv6">93.50</div></div><div class="brow"><div class="bn">GSM8K CoT</div><div class="btr"><div class="bf" id="bf7" style="width:42.08%"></div></div><div class="bv" id="bv7">42.08</div></div></div>
+    <div class="cap">Geiping et al., Table 1·2·4 / GSM8K는 CoT strict-extract 기준</div>
+  </div>
+
+  <div class="warn">
+    <div class="wt">정직한 단서 둘</div>
+    <p style="margin:0 0 8px;color:#3a4256"><b>① 포화한다, 그것도 불균등하게.</b>
+    r=16→32는 연산이 2배인데 ARC-E는 0.42점 오르고 SciQ는 <b>오히려 떨어진다</b>.
+    반면 GSM8K는 계속 올라간다. <b>직렬 추론이 병목인 과제에서만 크게 번다.</b></p>
+    <p style="margin:0;color:#3a4256"><b>② 데이터 품질이 여전히 지배한다.</b>
+    Huginn r=32의 MMLU는 31.38. 4T 토큰으로 정제 학습한 OLMo-2-7B는 60.56이다.
+    3.5B·0.8T로 Pythia-12B를 이기지만, <b>데이터 스케일링 법칙을 폐기하진 못한다.</b></p>
+  </div>
+  <p class="note">가장 유용한 대조군은 논문 Table 4다. 동일 데이터·동일 설정으로 180B 토큰을 학습시킨
+  순환 모델 vs 고정 깊이 모델 — ARC-E <b>53.62 대 46.42</b>, GSM8K CoT <b>9.02 대 1.82</b>.
+  <b>학습 레시피가 아니라 아키텍처 자체가 만든 격차다.</b></p>
+</section>
+
+<!-- ══════════ 8 ══════════ -->
+<section id="s8" class="reveal">
+  <div class="snum">08 — 맥락</div>
+  <h2>2026년의 발명이 아니다</h2>
+  <div class="tl">
+    <div class="tli"><div class="y">2018</div><div class="t">Universal Transformers</div>
+      <div class="d">단일 공유 블록을 반복 적용 + 정지(halting) 메커니즘. 최초의 가중치 결합 트랜스포머.</div></div>
+    <div class="tli"><div class="y">2019</div><div class="t">ALBERT</div>
+      <div class="d">층 간 파라미터 공유를 압축 기법으로 사용. 공유 블록이 품질을 해치지 않음을 보임.</div></div>
+    <div class="tli"><div class="y">2024</div><div class="t">Coconut (Hao et al.)</div>
+      <div class="d">마지막 히든 상태를 다음 입력 임베딩으로 되먹임. 토큰 대신 "연속적 사고".
+      한 경로를 확정하지 않고 너비 우선 탐색처럼 추론한다.</div></div>
+    <div class="tli hi"><div class="y">2025</div><div class="t">Huginn / Recurrent Depth (Geiping et al.)</div>
+      <div class="d">3.5B·800B 토큰으로 스케일업. 테스트 시점 루프만으로 <b>약 50B 실질 파라미터</b>급 성능 도달을 입증.
+      <b>이 문서의 주 출처.</b></div></div>
+    <div class="tli"><div class="y">2025</div><div class="t">Mixture-of-Recursions (Bae et al.)</div>
+      <div class="d">경량 라우터를 붙여 토큰마다 재귀 깊이를 다르게. 적응형 계산 + 파라미터 공유를 한 틀에.</div></div>
+    <div class="tli"><div class="y">2025</div><div class="t">Ouro / LoopLM (ByteDance)</div>
+      <div class="d">1.4B·2.6B 루프 모델을 7.7T 토큰으로 오픈소스화. <b>학습된 종료 메커니즘</b>으로 모델이 스스로 루프 길이를 정한다.
+      12B급과 대등하다고 보고. 아스트라 보도에서 가장 많이 인용된 선례.</div></div>
+    <div class="tli hi"><div class="y">2026.09.01</div><div class="t">The Information — 아스트라 보도</div>
+      <div class="d">오픈AI 차세대 모델이 순환 깊이를 쓴다고 보도. 몇 시간 만에 안전 논쟁으로 확산.</div></div>
+  </div>
+</section>
+
+<!-- ══════════ 9 ══════════ -->
+<section id="s9" class="reveal">
+  <div class="snum">09 — 논쟁</div>
+  <h2>감시 가능성 문제</h2>
+  <p>2025년 7월, 오픈AI·구글 딥마인드·앤스로픽·영국 AI보안연구소 등
+  <b>41명의 연구자</b>가 「사고사슬 감시 가능성」 논문에 공동 서명했다. 논지는 이렇다 —
+  <b>지금 모델은 긴 추론을 텍스트로 외재화할 수밖에 없고, 그 덕에 우리는 의도를 들여다보는 창을 공짜로 얻는다.</b></p>
+
+  <div class="quote">
+    "연구자들은 최근 연속적 잠재공간에서 직렬 추론 깊이를 높이는 아키텍처 변경을 탐구해왔다(Hao et al. 2024; Geiping et al. 2025).
+    그러한 잠재 추론 모델은 <b>사고를 전혀 발화할 필요가 없을 수 있고</b>, 따라서 CoT가 주는 안전상 이점을 잃게 된다."
+    <span class="who">— 「Chain of Thought Monitorability」 중 '새로운 아키텍처' 절</span>
+  </div>
+
+  <div class="warn">
+    <div class="wt">반응이 격했던 이유</div>
+    <p style="margin:0;color:#3a4256">공동 저자 명단에 <b>야쿠프 파초츠키(오픈AI 수석과학자)</b>가 있다.
+    아스트라에 쓰였다고 보도된 바로 그 아키텍처 계열이,
+    <b>13개월 전 오픈AI 수석과학자 본인이 서명한 논문에서 감시 위험으로 지목</b>돼 있었다.</p>
+  </div>
+
+  <h3>양측의 말</h3>
+  <div class="quote" style="border-color:var(--red)">
+    "오픈AI는 이 산업에 존재하는 몇 안 되는 레드라인 중 하나를 넘고 있는 것으로 보인다."
+    <span class="who">— Steven Adler, 前 오픈AI 안전 연구원</span>
+  </div>
+  <div class="quote" style="border-color:var(--green)">
+    "혼란스러운 보도가 촉발할 수 있는 '감시 불가능성으로의 경쟁'을 막고 싶다.
+    <b>아스트라를 포함한 우리 현행 프론티어 모델의 계산 그래프 깊이는 GPT-4의 2배 이내다.</b>
+    (…) 다만 감시 가능성이 취약하고 나쁜 방향으로 가고 있다는 점은 인정한다 — 아키텍처 변경과 무관한 이유들 때문에."
+    <span class="who">— Jakub Pachocki, 오픈AI 수석과학자 · 2026.09.02</span>
+  </div>
+  <div class="quote" style="border-color:var(--amber)">
+    "회로의 깊이를 제한해서 의미 있는 효과를 보려면 <b>아주 낮게</b> 제한해야 한다.
+    깊이가 수백 단위라면('가끔씩 토큰을 뱉는다' 수준) 그건 가짜 제한이다.
+    오차율을 말하지 않고 'CoT를 감시한다'고 말하는 것과 같다. <b>현실은 숫자로 채점한다.</b>"
+    <span class="who">— Geoffrey Irving, 영국 AI보안연구소</span>
+  </div>
+  <p class="note">Irving은 이후 "GPT-4의 2배 이내"라는 경계가 자신이 반박하던 시나리오보다 훨씬 타이트하다고 인정했다.
+  <b>공정한 요약:</b> 안전 진영의 반론은 "루프가 본질적으로 금지"라는 게 아니라
+  <b>"제한했다'는 말은 숫자가 붙어야 의미가 있다"</b>는 것이다. 오픈AI는 이제 숫자를 붙였다 — 다만 측정 근거는 공개하지 않았다.</p>
+
+  <div class="warn">
+    <div class="wt">가장 날카로운 아이러니</div>
+    <p style="margin:0;color:#3a4256">아스트라는 오픈AI 대비태세 프레임워크에서
+    <b>사이버보안 '치명적(Critical)' 임계를 충족한 최초의 모델</b>로 지정됐다.
+    그런데 그 안전장치는 <b>루프가 잠식하는 바로 그것</b>에 기대고 있다 —
+    "정렬되지 않은 행동을 신속히 탐지·차단하기 위해 <b>추가적인 사고사슬 감시</b>와 함께 배포한다."
+    통제 수단과 아키텍처 추세가 반대 방향으로 당기는데, 오픈AI는 둘을 동시에 돌리고 있다.</p>
+  </div>
+
+  <h3>확인된 것 · 보도된 것 · 추측</h3>
+  <table class="tbl">
+    <tr><th>주장</th><th>상태</th><th>출처</th></tr>
+    <tr><td>아스트라는 오픈AI의 차기 모델</td><td><span class="tag ok">확인</span></td><td>OpenAI, <i>Path to Astra</i> 9/1</td></tr>
+    <tr><td>사이버보안 Critical 임계 충족 첫 모델</td><td><span class="tag ok">확인</span></td><td>동일</td></tr>
+    <tr><td>ExploitBench 100% · 평가 중 제로데이 2건 발견</td><td><span class="tag ok">확인</span></td><td>동일</td></tr>
+    <tr><td>사고사슬 감시와 함께 배포</td><td><span class="tag ok">확인</span></td><td>동일</td></tr>
+    <tr><td>계산 그래프 깊이 GPT-4의 2배 이내</td><td><span class="tag ok">확인(측정 비공개)</span></td><td>Pachocki 9/2</td></tr>
+    <tr><td><b>아스트라가 순환 깊이를 쓴다</b></td><td><span class="tag rep">보도, 미확인</span></td><td>The Information 9/1</td></tr>
+    <tr><td>읽을 수 있는 CoT 보존 위해 루프 깊이를 의도적 제한</td><td><span class="tag rep">보도</span></td><td>The Information</td></tr>
+    <tr><td>아스트라 = "GPT-6"</td><td><span class="tag spec">추측</span></td><td>공식 발표 없음</td></tr>
+  </table>
+  <p class="note" style="margin-top:12px"><b>파초츠키의 반박은 기법이 아니라 함의를 다퉜다.</b>
+  즉 순환 깊이 사용 자체를 부인하진 않았다. 시스템 카드가 나올 때까지는
+  "회사가 확인도 부인도 하지 않은, 출처가 탄탄한 보도"로 다루는 게 맞다.</p>
+</section>
+
+<!-- ══════════ 10 ══════════ -->
+<section id="s10" class="reveal">
+  <div class="snum">10 — 정리</div>
+  <h2>남는 것</h2>
+  <div class="key">
+    <div class="wt">✓ 이해했다면 이 네 가지</div>
+    <p style="margin:0 0 7px;color:#3a4256"><b>1.</b> 히든레이어를 <b>늘린 게 아니라 재사용</b>한다. 물리 층수는 그대로, 실행 횟수만 늘어난다.</p>
+    <p style="margin:0 0 7px;color:#3a4256"><b>2.</b> 반복 횟수는 <b>고정이 아니다.</b> 쉬우면 3번, 어려우면 30번. 추론 시점에 조절된다 — 그래서 "테스트 타임 컴퓨트"다.</p>
+    <p style="margin:0 0 7px;color:#3a4256"><b>3.</b> 대체된 건 KV 캐시가 아니라 <b>CoT</b>다. 메모리 문제를 연산 문제로 옮긴 것이다.</p>
+    <p style="margin:0;color:#3a4256"><b>4.</b> <b>되돌아갈 수 없다.</b> 토큰 간 상태 이월이 없어 DeltaNet식 롤백은 구조적으로 불가능하다. 있는 건 조기 종료뿐.</p>
+  </div>
+  <p>세 번째 스케일링 축이 열렸다는 게 이 아키텍처의 의미다.
+  <b>사전학습은 파라미터를, CoT는 토큰을, 순환 깊이는 직렬 계산을 직접 늘린다.</b>
+  루프와 희소성(MoE)은 경쟁 관계가 아니다 — 논문의 표현대로
+  <span class="hl">"순환 깊이는 추론 패턴 학습에, MoE는 복잡한 정보의 저장과 인출에 각각 뛰어나다."</span></p>
+  <p>그리고 이 모든 이득의 대가는 하나로 수렴한다.
+  <b>우리가 읽을 수 있던 생각이, 읽을 수 없는 숫자가 된다.</b>
+  그게 성능 향상만큼이나 이 구조에 대해 기억해야 할 사실이다.</p>
+</section>
+
+<footer>
+  <div><b>주요 출처</b></div>
+  <div style="margin-top:8px">
+    Geiping et al., <i>Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach</i> · <a href="https://arxiv.org/abs/2502.05171">arXiv:2502.05171</a><br>
+    Huginn-3.5B 모델 카드 · <a href="https://huggingface.co/tomg-group-umd/huginn-0125">tomg-group-umd/huginn-0125</a><br>
+    <i>Chain of Thought Monitorability</i> · <a href="https://arxiv.org/abs/2507.11473">arXiv:2507.11473</a><br>
+    The Information (2026.09.01) · OpenAI <i>Path to Astra</i> (2026.09.01) · Pachocki 성명 (2026.09.02)
+  </div>
+  <div style="margin-top:16px;color:#d2d8e6">━━━━━━━━━━</div>
+  <div style="margin-top:10px">제임스 &amp; 알파의 대화에서 출발 · 2026년 9월 5일 💃</div>
+</footer>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+document.documentElement.classList.add('js-on');
+
+/* ---------- reveal on scroll ---------- */
+document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+
+/* ══════════ VIZ 1 : stack comparison ══════════ */
+var stkA=document.getElementById('stkA'), stkB=document.getElementById('stkB');
+var rS=document.getElementById('rSlider'), rV=document.getElementById('rVal');
+var mP=document.getElementById('mParam'), mD=document.getElementById('mDepth');
+var bP=document.getElementById('bParam'), bD=document.getElementById('bDepth');
+var loopc=document.getElementById('loopc'), playBtn=document.getElementById('playBtn');
+var MAXVIS=11;
+
+function buildStacks(){
+  var r=+rS.value;
+  var visA=Math.min(r,MAXVIS);
+  stkA.innerHTML='';
+  for(var i=0;i<visA;i++){
+    var d=document.createElement('div'); d.className='lyr';
+    d.textContent='Layer '+(i+1); d.dataset.i=i; stkA.appendChild(d);
+  }
+  if(r>MAXVIS){
+    var e=document.createElement('div'); e.className='lyr';
+    e.style.borderStyle='dashed'; e.textContent='… +'+(r-MAXVIS)+'개 층 더';
+    stkA.appendChild(e);
+  }
+  stkB.innerHTML='';
+  var p=document.createElement('div'); p.className='lyr pre'; p.textContent='Prelude'; stkB.appendChild(p);
+  ['Core R1','Core R2'].forEach(function(t,k){
+    var d=document.createElement('div'); d.className='lyr rec'; d.textContent=t; d.dataset.r=k; stkB.appendChild(d);
+  });
+  var c=document.createElement('div'); c.className='lyr cod'; c.textContent='Coda'; stkB.appendChild(c);
+  var sp=document.createElement('div'); sp.style.height='6px'; sp.style.flex='0 0 auto'; stkB.appendChild(sp);
+  updMeters();
+}
+function updMeters(){
+  var r=+rS.value;
+  rV.textContent=r+'회';
+  loopc.textContent='↺ '+r+'회 반복 중';
+  var pa=(r*1.0+2.0), pb=(1.5+2.0);
+  mP.innerHTML='<span style="color:var(--blue)">'+pa.toFixed(1)+'B</span> <span style="color:var(--dim);font-size:12px">vs</span> <span style="color:var(--green)">'+pb.toFixed(1)+'B</span>';
+  bP.style.width=Math.min(100,(pb/pa)*100)+'%';
+  var d=r*1.5+2;
+  mD.innerHTML='<span style="color:var(--blue)">'+d.toFixed(1)+'B</span> <span style="color:var(--dim);font-size:12px">실현</span>';
+  bD.style.width=Math.min(100,(d/50)*100)+'%';
+}
+rS.addEventListener('input',buildStacks);
+
+var animT=null, animOn=false;
+function stopAnim(){ if(animT){clearInterval(animT);animT=null;} animOn=false; playBtn.classList.remove('on'); playBtn.textContent='▶ 애니메이션';
+  document.querySelectorAll('.lyr.act').forEach(function(e){e.classList.remove('act');}); }
+playBtn.addEventListener('click',function(){
+  if(animOn){ stopAnim(); return; }
+  animOn=true; playBtn.classList.add('on'); playBtn.textContent='⏸ 정지';
+  var stepA=0, stepB=0, rec=stkB.querySelectorAll('.lyr.rec'), la=stkA.querySelectorAll('.lyr');
+  animT=setInterval(function(){
+    la.forEach(function(e){e.classList.remove('act');});
+    rec.forEach(function(e){e.classList.remove('act');});
+    if(la.length) la[stepA % la.length].classList.add('act');
+    if(rec.length) rec[stepB % rec.length].classList.add('act');
+    stepA++; stepB++;
+    var r=+rS.value;
+    loopc.textContent='↺ '+(Math.floor(stepB/2)% r +1)+' / '+r+' 회';
+  },320);
+});
+buildStacks();
+
+/* ══════════ VIZ 2 : architecture flow ══════════ */
+var bkP=document.getElementById('bkP'), bkR=document.getElementById('bkR'), bkC=document.getElementById('bkC');
+var ar1=document.getElementById('ar1'), ar2=document.getElementById('ar2');
+var arc=document.getElementById('arc'), arclab=document.getElementById('arclab');
+var inj=document.getElementById('inj'), archBtn=document.getElementById('archBtn');
+var archT=null;
+function clearArch(){ [bkP,bkR,bkC].forEach(function(e){e.classList.remove('lit');});
+  [ar1,ar2].forEach(function(e){e.classList.remove('lit');});
+  arc.classList.remove('lit'); inj.classList.remove('lit'); arclab.textContent='× r 회'; }
+archBtn.addEventListener('click',function(){
+  if(archT){ clearInterval(archT); archT=null; clearArch(); archBtn.textContent='▶ 흐름 재생'; archBtn.classList.remove('on'); return; }
+  archBtn.textContent='⏸ 정지'; archBtn.classList.add('on');
+  var ph=0, loop=0, TOT=6;
+  archT=setInterval(function(){
+    clearArch();
+    if(ph===0){ bkP.classList.add('lit'); inj.classList.add('lit'); arclab.textContent='입력 임베딩 생성'; }
+    else if(ph===1){ ar1.classList.add('lit'); arclab.textContent='잠재공간 진입'; }
+    else if(ph>=2 && ph<2+TOT){
+      bkR.classList.add('lit'); arc.classList.add('lit'); inj.classList.add('lit');
+      loop=ph-1; arclab.textContent='순환 '+loop+' / '+TOT+' 회';
+    }
+    else if(ph===2+TOT){ ar2.classList.add('lit'); arclab.textContent='수렴 — 루프 종료'; }
+    else { bkC.classList.add('lit'); arclab.textContent='다음 토큰 출력'; }
+    ph=(ph+1)%(TOT+4);
+  },520);
+});
+
+/* ══════════ VIZ 3 : latent orbit canvas ══════════ */
+var cv=document.getElementById('orb'), cx=cv.getContext('2d');
+var mode='conv', tt=0, trail=[];
+function resizeCv(){
+  var r=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  cv.width=r.width*dpr; cv.height=(r.width*0.5)*dpr;
+  cv.style.height=(r.width*0.5)+'px'; cx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize',resizeCv); resizeCv();
+document.querySelectorAll('[data-orb]').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('[data-orb]').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); mode=b.dataset.orb; tt=0; trail=[];
+  });
+});
+function orbPos(t){
+  var W=cv.width/(window.devicePixelRatio||1), H=cv.height/(window.devicePixelRatio||1);
+  var cxx=W/2, cyy=H/2;
+  if(mode==='conv'){
+    var dec=Math.exp(-t*0.055);
+    return [cxx+Math.cos(t*0.55)*H*0.38*dec, cyy+Math.sin(t*0.55)*H*0.32*dec];
+  }
+  if(mode==='orbit'){
+    var wob=1+Math.sin(t*0.13)*0.11;
+    return [cxx+Math.cos(t*0.30)*H*0.30*wob, cyy+Math.sin(t*0.30)*H*0.27*wob];
+  }
+  return [cxx+Math.cos(t*0.21)*H*0.34+Math.sin(t*0.66)*H*0.10,
+          cyy+Math.sin(t*0.17)*H*0.29+Math.cos(t*0.51)*H*0.09];
+}
+function drawOrb(){
+  var W=cv.width/(window.devicePixelRatio||1), H=cv.height/(window.devicePixelRatio||1);
+  cx.clearRect(0,0,W,H);
+  cx.strokeStyle='rgba(20,25,40,.055)'; cx.lineWidth=1;
+  for(var g=0;g<=8;g++){
+    cx.beginPath(); cx.moveTo(W/8*g,0); cx.lineTo(W/8*g,H); cx.stroke();
+    cx.beginPath(); cx.moveTo(0,H/6*g); cx.lineTo(W,H/6*g); cx.stroke();
+  }
+  var col = mode==='conv'?'47,95,224' : mode==='orbit'?'193,122,6':'214,63,121';
+  cx.strokeStyle='rgba('+col+',.16)'; cx.setLineDash([4,4]);
+  cx.beginPath(); cx.arc(W/2,H/2,6,0,Math.PI*2); cx.stroke(); cx.setLineDash([]);
+
+  tt+=0.42; trail.push(orbPos(tt)); if(trail.length>170) trail.shift();
+  for(var i=1;i<trail.length;i++){
+    var a=i/trail.length;
+    cx.strokeStyle='rgba('+col+','+(a*0.75)+')';
+    cx.lineWidth=0.6+a*2.6; cx.beginPath();
+    cx.moveTo(trail[i-1][0],trail[i-1][1]); cx.lineTo(trail[i][0],trail[i][1]); cx.stroke();
+  }
+  if(trail.length){
+    var p=trail[trail.length-1];
+    var gr=cx.createRadialGradient(p[0],p[1],0,p[0],p[1],17);
+    gr.addColorStop(0,'rgba('+col+',.95)'); gr.addColorStop(1,'rgba('+col+',0)');
+    cx.fillStyle=gr; cx.beginPath(); cx.arc(p[0],p[1],17,0,Math.PI*2); cx.fill();
+    cx.fillStyle='#ffffff'; cx.beginPath(); cx.arc(p[0],p[1],3.4,0,Math.PI*2); cx.fill();
+    cx.strokeStyle='rgba('+col+',1)'; cx.lineWidth=1.6; cx.stroke();
+  }
+  cx.fillStyle='rgba(20,25,40,.42)'; cx.font='11px ui-monospace,monospace';
+  cx.fillText('반복 '+Math.floor(tt/0.42)%999+'회 · 잠재상태 궤적 (2D 투영)',12,20);
+  requestAnimationFrame(drawOrb);
+}
+drawOrb();
+
+/* ══════════ VIZ 4 : KV cache ══════════ */
+var tapeA=document.getElementById('tapeA'), tapeB=document.getElementById('tapeB');
+var kvA=document.getElementById('kvA'), kvB=document.getElementById('kvB');
+var kvBarA=document.getElementById('kvBarA'), kvBarB=document.getElementById('kvBarB');
+var kvBtn=document.getElementById('kvBtn'), kvT=null;
+var THINK=['먼저','문제를','정리하면','12개씩','3묶음이','있으니','36개이고','거기서','7개를','빼면','29개','다시','확인해보자','12×3은','36','맞다','36-7은','29','따라서','답은'];
+kvBtn.addEventListener('click',function(){
+  if(kvT){ clearInterval(kvT); kvT=null; kvBtn.textContent='▶ 같은 문제를 풀어보자'; kvBtn.classList.remove('on'); return; }
+  tapeA.innerHTML=''; tapeB.innerHTML=''; kvBtn.classList.add('on'); kvBtn.textContent='⏸ 정지';
+  var i=0, loops=0;
+  var q=document.createElement('span'); q.className='tok'; q.textContent='[질문]'; tapeA.appendChild(q);
+  var q2=document.createElement('span'); q2.className='tok'; q2.textContent='[질문]'; tapeB.appendChild(q2);
+  var spin=document.createElement('span'); spin.className='tok think'; spin.textContent='↺ 잠재 반복 0/32'; tapeB.appendChild(spin);
+  kvT=setInterval(function(){
+    if(i<THINK.length){
+      var s=document.createElement('span'); s.className='tok think'; s.textContent=THINK[i]; tapeA.appendChild(s);
+      i++;
+      var n=i+1;
+      kvA.textContent=n+' tok'; kvBarA.style.width=Math.min(100,n/22*100)+'%';
+      loops=Math.min(32,loops+2); spin.textContent='↺ 잠재 반복 '+loops+'/32';
+      kvB.textContent='2 tok'; kvBarB.style.width=(2/22*100)+'%';
+    } else {
+      var a=document.createElement('span'); a.className='tok ans'; a.textContent='29'; tapeA.appendChild(a);
+      spin.remove();
+      var b=document.createElement('span'); b.className='tok ans'; b.textContent='29'; tapeB.appendChild(b);
+      kvA.textContent=(THINK.length+2)+' tok';
+      kvB.textContent='2 tok';
+      clearInterval(kvT); kvT=null; kvBtn.textContent='↻ 다시'; kvBtn.classList.remove('on');
+    }
+  },220);
+});
+
+/* ══════════ VIZ 5 : one-way ══════════ */
+var ow=document.getElementById('oneway'), owMsg=document.getElementById('owMsg');
+var owBtn=document.getElementById('owBtn'), owBtn2=document.getElementById('owBtn2');
+var N=10;
+function buildOw(){ ow.innerHTML='';
+  for(var i=1;i<=N;i++){ var d=document.createElement('div'); d.className='stp'; d.textContent=i; ow.appendChild(d); } }
+buildOw();
+var owT=null;
+owBtn.addEventListener('click',function(){
+  if(owT) clearInterval(owT);
+  buildOw(); var st=ow.querySelectorAll('.stp'), i=0;
+  owMsg.textContent='반복 진행 중…'; owMsg.style.color='var(--sub)';
+  owT=setInterval(function(){
+    st.forEach(function(e){e.classList.remove('now');});
+    if(i>0) st[i-1].classList.add(i-1===4?'bad':'done');
+    if(i<N){ st[i].classList.add('now');
+      if(i===4){ owMsg.innerHTML='<span style="color:var(--red)">5회차에서 방향이 틀어졌다.</span> 그런데 루프는 계속 전진한다.'; }
+      i++;
+    } else {
+      clearInterval(owT); owT=null;
+      st[N-1].classList.add('done');
+      owMsg.innerHTML='<span style="color:var(--red)">10회 완주 — 틀린 상태 위에 5번을 더 쌓았다.</span><br>게다가 <b>5회차가 문제였다는 사실조차 밖에서는 보이지 않는다.</b>';
+    }
+  },330);
+});
+owBtn2.addEventListener('click',function(){
+  var st=ow.querySelectorAll('.stp');
+  if(!st.length) return;
+  var k=0;
+  var iv=setInterval(function(){
+    st[N-1-k].style.transform='translateX(-6px)'; st[N-1-k].style.opacity='.45';
+    setTimeout(function(){ st[N-1-k].style.transform=''; st[N-1-k].style.opacity=''; },160);
+    k++;
+    if(k>4){ clearInterval(iv);
+      owMsg.innerHTML='<span style="color:var(--red)">✕ 되감기 불가.</span> 토큰 간 이월되는 잠재상태가 없어 돌아갈 지점 자체가 존재하지 않는다.<br>가능한 건 <b class="hl2">조기 종료</b>뿐 — 앞으로 덜 가는 것이지, 뒤로 가는 게 아니다.';
+    }
+  },110);
+});
+
+/* ══════════ VIZ 6 : benchmark ══════════ */
+var BENCH=[
+  {n:'ARC-E',    v:{1:34.89,8:65.11,16:69.49,32:69.91}},
+  {n:'ARC-C',    v:{1:24.06,8:35.15,16:37.71,32:38.23}},
+  {n:'HellaSwag',v:{1:29.34,8:58.54,16:64.67,32:65.21}},
+  {n:'MMLU',     v:{1:23.60,8:25.29,16:31.25,32:31.38}},
+  {n:'OpenBookQA',v:{1:26.80,8:35.40,16:37.60,32:38.80}},
+  {n:'PiQA',     v:{1:55.33,8:73.45,16:75.79,32:76.22}},
+  {n:'SciQ',     v:{1:47.10,8:92.10,16:93.90,32:93.50}},
+  {n:'GSM8K CoT',v:{1:0.15, 8:12.00,16:26.00,32:42.08}}
+];
+var benchEl=document.getElementById('bench'); benchEl.innerHTML='';
+BENCH.forEach(function(b,i){
+  var row=document.createElement('div'); row.className='brow';
+  row.innerHTML='<div class="bn">'+b.n+'</div><div class="btr"><div class="bf" id="bf'+i+'" style="width:0"></div></div><div class="bv" id="bv'+i+'">—</div>';
+  benchEl.appendChild(row);
+});
+function setBench(r){
+  BENCH.forEach(function(b,i){
+    var v=b.v[r];
+    var f=document.getElementById('bf'+i), t=document.getElementById('bv'+i);
+    setTimeout(function(){ f.style.width=v+'%'; t.textContent=v.toFixed(2); }, i*55);
+    if(b.n==='SciQ' && r===32) f.style.background='linear-gradient(90deg,var(--amber-d),var(--amber))';
+    else if(b.n==='GSM8K CoT') f.style.background='linear-gradient(90deg,var(--green-d),var(--green))';
+    else f.style.background='linear-gradient(90deg,var(--blue-d),var(--blue))';
+  });
+}
+document.querySelectorAll('[data-r]').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('[data-r]').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); setBench(+b.dataset.r);
+  });
+});
+var benchDone=false;
+var io2=new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting && !benchDone){ benchDone=true; setBench(32); } });
+},{threshold:.2});
+io2.observe(benchEl);
+
+})();
+</script>
+
+</div>
