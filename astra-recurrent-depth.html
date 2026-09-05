@@ -35,9 +35,7 @@ description: "GPT-6 아스트라가 쓴다고 보도된 순환 깊이(recurrent 
 .astra-viz h1{font-size:clamp(30px,6vw,46px);line-height:1.15;margin:0 0 14px;letter-spacing:-1.3px;font-weight:800}
 .astra-viz h1 .g{background:linear-gradient(100deg,var(--blue),var(--purple) 45%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
 .astra-viz .lede{color:#4a5266;font-size:17px;max-width:600px;margin:0 auto 22px;word-break:keep-all}
-.astra-viz .stamp{display:inline-flex;gap:8px;align-items:center;font-size:12.5px;color:#5b6478;background:#fff;border:1px solid var(--line2);border-radius:999px;padding:7px 15px}
-.astra-viz .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(15,155,108,.18);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+50%{opacity:.35}}
 
 /* ---------- toc ---------- */
 .astra-viz nav.toc{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:26px 0 10px}
@@ -238,8 +236,7 @@ html[data-theme="dark"] .astra-viz .stp,
 html[data-theme="dark"] .astra-viz button.b,
 html[data-theme="dark"] .astra-viz .tok,
 html[data-theme="dark"] .astra-viz nav.toc a,
-html[data-theme="dark"] .astra-viz .stamp{background:#1a1d23}
-html[data-theme="dark"] .astra-viz canvas{background:#16181d}
+html[data-theme="dark"] html[data-theme="dark"] .astra-viz canvas{background:#16181d}
 html[data-theme="dark"] .astra-viz .card{box-shadow:none}
 html[data-theme="dark"] .astra-viz p{color:#c3c9d6}
 html[data-theme="dark"] .astra-viz b,
@@ -262,7 +259,6 @@ html[data-theme="dark"] .astra-viz strong{color:#fff}
   <div class="eyebrow">Recurrent Depth · GPT-6 Astra</div>
   <h1>아스트라의 <span class="g">순환추론</span><br>깊이를 접는 법</h1>
   <p class="lede">층을 100개 쌓는 대신, 2개를 50번 돌린다.<br>파라미터는 줄고 사고는 깊어지는 대신 — 우리는 그 사고를 볼 수 없게 된다.</p>
-  <div class="stamp"><span class="dot"></span>2026. 09. 05 · 제임스 &amp; 알파의 대화 기록</div>
   <nav class="toc">
     <a href="#s1">한 장 요약</a><a href="#s2">기존 vs 순환</a><a href="#s3">3단 구조</a>
     <a href="#s4">잠재공간</a><a href="#s5">KV 캐시</a><a href="#s6">되돌릴 수 없다</a>
@@ -658,8 +654,6 @@ html[data-theme="dark"] .astra-viz strong{color:#fff}
     <i>Chain of Thought Monitorability</i> · <a href="https://arxiv.org/abs/2507.11473">arXiv:2507.11473</a><br>
     The Information (2026.09.01) · OpenAI <i>Path to Astra</i> (2026.09.01) · Pachocki 성명 (2026.09.02)
   </div>
-  <div style="margin-top:16px;color:#d2d8e6">━━━━━━━━━━</div>
-  <div style="margin-top:10px">제임스 &amp; 알파의 대화에서 출발 · 2026년 9월 5일 💃</div>
 </footer>
 
 </div>
