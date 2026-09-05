@@ -33,7 +33,7 @@ banner_image: "/assets/images/posts/2026-09-05-thought-folded-inward.jpg"
 
 순환 깊이는 이 결합을 끊는다. 레이어 일부를 공유 블록 하나로 바꾸고, 그 블록을 반복해서 적용한다. 네 번 돌리면 레이어 네 개를 쌓은 것과 비슷한 직렬 계산을 얻지만 저장하는 가중치는 한 벌뿐이다. 서른두 번 돌리면 실현되는 깊이는 32벌 분량으로 늘어나는데 파라미터 수는 그대로다.
 
-> 이 글에 나오는 구조와 수치는 [도식과 애니메이션으로 정리한 페이지](/astra-recurrent-depth/)에서 직접 조작해 볼 수 있다. 순환 횟수를 바꾸면 파라미터와 깊이가 어떻게 갈리는지, 캐시가 어떻게 차오르는지 눈으로 확인할 수 있다.
+> 이 글에 나오는 구조와 수치는 [도식과 애니메이션으로 정리한 페이지](/sub/astra-recurrent-depth.html)에서 직접 조작해 볼 수 있다. 순환 횟수를 바꾸면 파라미터와 깊이가 어떻게 갈리는지, 캐시가 어떻게 차오르는지 눈으로 확인할 수 있다.
 
 ![순환 깊이 비교](/assets/images/posts/2026-09-05-recurrent-depth-comparison.gif)
 
@@ -222,4 +222,4 @@ banner_image: "/assets/images/posts/2026-09-05-thought-folded-inward.jpg"
 - METR·Redwood Research, *Brief independent investigation of agents' behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident*: https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/
 - OpenAI, *The Hugging Face incident and the road ahead*: https://openai.com/index/hugging-face-incident-and-the-road-ahead/
 - Zhu et al., *Scaling Latent Reasoning via Looped Language Models* (Ouro): https://arxiv.org/abs/2510.25741
-- 도식으로 보기: [아스트라의 순환추론](/astra-recurrent-depth/)
+- 도식으로 보기: [아스트라의 순환추론](/sub/astra-recurrent-depth.html)
