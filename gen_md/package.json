@@ -11,22 +11,22 @@
     "start": "node program.js"
   },
   "dependencies": {
-    "@tiptap/core": "^2.1.13",
-    "@tiptap/extension-bold": "^2.1.13",
-    "@tiptap/extension-document": "^2.1.13",
-    "@tiptap/extension-heading": "^2.1.13",
-    "@tiptap/extension-image": "^2.1.13",
-    "@tiptap/extension-italic": "^2.1.13",
-    "@tiptap/extension-link": "^2.1.13",
-    "@tiptap/extension-paragraph": "^2.1.13",
-    "@tiptap/extension-text": "^2.1.13",
+    "@tiptap/core": "^3.31.3",
+    "@tiptap/extension-bold": "^3.31.3",
+    "@tiptap/extension-document": "^3.31.3",
+    "@tiptap/extension-heading": "^3.31.3",
+    "@tiptap/extension-image": "^3.31.3",
+    "@tiptap/extension-italic": "^3.31.3",
+    "@tiptap/extension-link": "^3.31.3",
+    "@tiptap/extension-paragraph": "^3.31.3",
+    "@tiptap/extension-text": "^3.31.3",
     "commander": "^11.1.0",
     "dotenv": "^16.4.5",
     "glob": "^10.3.10",
     "node-fetch": "^3.3.2",
     "openai": "^4.52.0",
     "sharp": "^0.35.3",
-    "tiptap-markdown": "^0.8.9"
+    "tiptap-markdown": "^0.9.0"
   },
   "keywords": [
     "tiptap",
