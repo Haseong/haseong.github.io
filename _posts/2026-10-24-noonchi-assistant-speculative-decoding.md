@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "눈치 빠른 조수"
-date: 2026-10-24 18:00:00 +0900
+date: 2026-10-24 17:30:00 +0900
 author: 정하성
 categories: [Blog]
 tags: [추측디코딩, SpeculativeDecoding, 드래프터, MTP, DFlash2, 로컬LLM, 온디바이스AI, 한국어, Qwen, FDE]
