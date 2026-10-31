@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "최고 지능은 이미 95% 할인중"
-date: 2026-10-31 18:40:00 +0900
+date: 2026-10-31 18:20:00 +0900
 author: 정하성
 categories: [Blog]
 tags: [DeepSeek, DS1017, ClaudeOpus, Anthropic, 오픈웨이트, LLM가격, 추론비용, 화웨이MaaS, 에어갭, AI구독]
