@@ -257,6 +257,7 @@ plugins:
 
 exclude:
   - CLAUDE.md
+  - AGENTS.md
   - gen_md/
   - LICENSE.txt
   - docs/
